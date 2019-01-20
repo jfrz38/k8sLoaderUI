@@ -1,0 +1,3 @@
+[submodule "k8s-prom-hpa"]
+	path = k8s-prom-hpa
+	url = https://github.com/stefanprodan/k8s-prom-hpa
