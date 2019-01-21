@@ -106,6 +106,26 @@ Iniciar minikube
 minikube start --memory 4096 --cpus 2 --vm-driver=none start
 ```
 
-```bash
+Comprobar que está correctamente iniciado tanto minikube como kubectl
 
+Minikube:
+```bash
+minikube status
+```
+Tendrá una salida similar a esta
+```bash
+host: Running
+kubelet: Running
+apiserver: Running
+kubectl: Correctly Configured: pointing to minikube-vm at 30.0.0.6
+```
+
+Kubectl:
+```bash
+kubectl cluster-info
+```
+Salida similar a:
+```bash
+Kubernetes master is running at https://30.0.0.6:8443
+KubeDNS is running at https://30.0.0.6:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 ```
