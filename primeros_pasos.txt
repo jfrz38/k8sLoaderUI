@@ -1,0 +1,409 @@
+# Instalar Docker
+sudo apt  install docker.io
+
+# Probar que funciona
+sudo docker run hello-world
+
+# Instalar kubectl
+# Vía https://kubernetes.io/docs/tasks/tools/install-kubectl/
+
+sudo apt-get update && sudo apt-get install -y apt-transport-https
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubectl
+
+# Probar que funciona
+kubectl cluster-info
+# Al correr localmente sin un cluster creado (como minikube) la respuesta será: The connection to the server localhost:8080 was refused - did you specify the right host or port?
+
+# Instalar minikube
+# Descargar
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \ && chmod +x minikube
+# Añadir al path
+sudo cp minikube /usr/local/bin && rm minikube
+
+# Probar que funciona
+minikube status
+
+# Instalar go
+apt  install golang-go
+# Configurar path
+# En esta máquina:
+export PATH=$PATH:/home/ubuntu/go/bin
+
+# Instalar hey
+go get -u github.com/rakyll/hey
+
+#Instalar jq
+apt install jq
+
+# Iniciar minikube
+minikube start --memory 4096 --cpus 2 --vm-driver=none
+
+# Al iniciar sin drivers:
+# WARNING: IT IS RECOMMENDED NOT TO RUN THE NONE DRIVER ON PERSONAL WORKSTATIONS
+#        The 'none' driver will run an insecure kubernetes apiserver as root that may leave the host vulnerable to CSRF attacks
+#
+# When using the none driver, the kubectl config and credentials generated will be root owned and will appear in the root home directory.
+
+# Comprobar que está correctamente iniciado
+minikube status && kubectl cluster-info
+
+# Addons de minikube
+minikube addons list
+
+- addon-manager: enabled
+- dashboard: disabled
+- default-storageclass: enabled
+- efk: disabled
+- freshpod: disabled
+- gvisor: disabled
+- heapster: enabled
+- ingress: disabled
+- kube-dns: disabled
+- metrics-server: enabled
+- nvidia-driver-installer: disabled
+- nvidia-gpu-device-plugin: disabled
+- registry: disabled
+- registry-creds: disabled
+- storage-provisioner: enabled
+- storage-provisioner-gluster: disabled
+
+# Activar metrics-server
+# 2 maneras:
+# Desde el repo
+
+# Desde addons
+minikube addons enable metrics-server
+
+# Para modificar permisos
+sudo chown -R $USER $HOME/.kube
+sudo chgrp -R $USER $HOME/.kube
+
+sudo chown -R $USER $HOME/.minikube
+sudo chgrp -R $USER $HOME/.minikube
+
+# Prueba: Hello minikube
+# Crear despliegue
+kubectl create deployment hello-node --image=gcr.io/hello-minikube-zero-install/hello-node
+# Crear servicio
+kubectl expose deployment hello-node --type=LoadBalancer --port=8080
+# Ver url
+minikube service hello-node --url
+
+# Probar hey con la URL anterior
+hey -n 10000 $(minikube service hello-node --url)
+
+# Eliminar despliegue y servicio
+kubectl delete service hello-node
+kubectl delete deployment hello-node
+
+# Clonar repositorio
+git clone https://github.com/jfrz38/TFGDocker.git
+cd TFGDocker/custom-metrics/
+
+# Desplegar Metrics Server en kube-system
+kubectl create -f ./metrics-server
+
+# Ver despliegue
+kubectl get po -n kube-system
+
+# Resultados
+NAME                               READY   STATUS    RESTARTS   AGE
+coredns-86c58d9df4-7ssrl           0/1     Error     4          108s
+coredns-86c58d9df4-ccjsr           0/1     Error     4          108s
+etcd-minikube                      1/1     Running   2          59s
+kube-addon-manager-minikube        1/1     Running   2          67s
+kube-apiserver-minikube            1/1     Running   2          44s
+kube-controller-manager-minikube   1/1     Running   1          65s
+kube-proxy-jspcn                   1/1     Running   0          108s
+kube-scheduler-minikube            1/1     Running   2          69s
+metrics-server-68d85f76bb-lr6kl    1/1     Running   0          16s
+storage-provisioner                1/1     Running   0          106s
+
+
+# Ver métricas de los nodos
+kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes" | jq .
+
+{
+  "kind": "NodeMetricsList",
+  "apiVersion": "metrics.k8s.io/v1beta1",
+  "metadata": {
+    "selfLink": "/apis/metrics.k8s.io/v1beta1/nodes"
+  },
+  "items": [
+    {
+      "metadata": {
+        "name": "minikube",
+        "selfLink": "/apis/metrics.k8s.io/v1beta1/nodes/minikube",
+        "creationTimestamp": "2019-01-21T21:24:32Z"
+      },
+      "timestamp": "2019-01-21T21:24:00Z",
+      "window": "1m0s",
+      "usage": {
+        "cpu": "367m",
+        "memory": "1115612Ki"
+      }
+    }
+  ]
+}
+
+
+
+# Ver métricas de los pods
+kubectl get --raw "/apis/metrics.k8s.io/v1beta1/pods" | jq .
+
+{
+  "kind": "PodMetricsList",
+  "apiVersion": "metrics.k8s.io/v1beta1",
+  "metadata": {
+    "selfLink": "/apis/metrics.k8s.io/v1beta1/pods"
+  },
+  "items": [
+    {
+      "metadata": {
+        "name": "kube-addon-manager-minikube",
+        "namespace": "kube-system",
+        "selfLink": "/apis/metrics.k8s.io/v1beta1/namespaces/kube-system/pods/kube-addon-manager-minikube",
+        "creationTimestamp": "2019-01-21T21:25:55Z"
+      },
+      "timestamp": "2019-01-21T21:25:00Z",
+      "window": "1m0s",
+      "containers": [
+        {
+          "name": "kube-addon-manager",
+          "usage": {
+            "cpu": "21m",
+            "memory": "37012Ki"
+          }
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "name": "metrics-server-6fc4b7bcff-www2k",
+        "namespace": "kube-system",
+        "selfLink": "/apis/metrics.k8s.io/v1beta1/namespaces/kube-system/pods/metrics-server-6fc4b7bcff-www2k",
+        "creationTimestamp": "2019-01-21T21:25:55Z"
+      },
+      "timestamp": "2019-01-21T21:25:00Z",
+      "window": "1m0s",
+      "containers": [
+        {
+          "name": "metrics-server",
+          "usage": {
+            "cpu": "1m",
+            "memory": "11064Ki"
+          }
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "name": "storage-provisioner",
+        "namespace": "kube-system",
+        "selfLink": "/apis/metrics.k8s.io/v1beta1/namespaces/kube-system/pods/storage-provisioner",
+        "creationTimestamp": "2019-01-21T21:25:55Z"
+      },
+      "timestamp": "2019-01-21T21:25:00Z",
+      "window": "1m0s",
+      "containers": [
+        {
+          "name": "storage-provisioner",
+          "usage": {
+            "cpu": "0",
+            "memory": "19648Ki"
+          }
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "name": "kube-proxy-p6mq5",
+        "namespace": "kube-system",
+        "selfLink": "/apis/metrics.k8s.io/v1beta1/namespaces/kube-system/pods/kube-proxy-p6mq5",
+        "creationTimestamp": "2019-01-21T21:25:55Z"
+      },
+      "timestamp": "2019-01-21T21:25:00Z",
+      "window": "1m0s",
+      "containers": [
+        {
+          "name": "kube-proxy",
+          "usage": {
+            "cpu": "3m",
+            "memory": "17820Ki"
+          }
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "name": "kube-scheduler-minikube",
+        "namespace": "kube-system",
+        "selfLink": "/apis/metrics.k8s.io/v1beta1/namespaces/kube-system/pods/kube-scheduler-minikube",
+        "creationTimestamp": "2019-01-21T21:25:55Z"
+      },
+      "timestamp": "2019-01-21T21:25:00Z",
+      "window": "1m0s",
+      "containers": [
+        {
+          "name": "kube-scheduler",
+          "usage": {
+            "cpu": "11m",
+            "memory": "13260Ki"
+          }
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "name": "kube-apiserver-minikube",
+        "namespace": "kube-system",
+        "selfLink": "/apis/metrics.k8s.io/v1beta1/namespaces/kube-system/pods/kube-apiserver-minikube",
+        "creationTimestamp": "2019-01-21T21:25:55Z"
+      },
+      "timestamp": "2019-01-21T21:25:00Z",
+      "window": "1m0s",
+      "containers": [
+        {
+          "name": "kube-apiserver",
+          "usage": {
+            "cpu": "42m",
+            "memory": "368464Ki"
+          }
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "name": "kube-controller-manager-minikube",
+        "namespace": "kube-system",
+        "selfLink": "/apis/metrics.k8s.io/v1beta1/namespaces/kube-system/pods/kube-controller-manager-minikube",
+        "creationTimestamp": "2019-01-21T21:25:55Z"
+      },
+      "timestamp": "2019-01-21T21:25:00Z",
+      "window": "1m0s",
+      "containers": [
+        {
+          "name": "kube-controller-manager",
+          "usage": {
+            "cpu": "43m",
+            "memory": "66756Ki"
+          }
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "name": "etcd-minikube",
+        "namespace": "kube-system",
+        "selfLink": "/apis/metrics.k8s.io/v1beta1/namespaces/kube-system/pods/etcd-minikube",
+        "creationTimestamp": "2019-01-21T21:25:55Z"
+      },
+      "timestamp": "2019-01-21T21:25:00Z",
+      "window": "1m0s",
+      "containers": [
+        {
+          "name": "etcd",
+          "usage": {
+            "cpu": "22m",
+            "memory": "44156Ki"
+          }
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "name": "heapster-rjbl8",
+        "namespace": "kube-system",
+        "selfLink": "/apis/metrics.k8s.io/v1beta1/namespaces/kube-system/pods/heapster-rjbl8",
+        "creationTimestamp": "2019-01-21T21:25:55Z"
+      },
+      "timestamp": "2019-01-21T21:25:00Z",
+      "window": "1m0s",
+      "containers": [
+        {
+          "name": "heapster",
+          "usage": {
+            "cpu": "0",
+            "memory": "11620Ki"
+          }
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "name": "influxdb-grafana-9xn6l",
+        "namespace": "kube-system",
+        "selfLink": "/apis/metrics.k8s.io/v1beta1/namespaces/kube-system/pods/influxdb-grafana-9xn6l",
+        "creationTimestamp": "2019-01-21T21:25:55Z"
+      },
+      "timestamp": "2019-01-21T21:25:00Z",
+      "window": "1m0s",
+      "containers": [
+        {
+          "name": "influxdb",
+          "usage": {
+            "cpu": "1m",
+            "memory": "6336Ki"
+          }
+        },
+        {
+          "name": "grafana",
+          "usage": {
+            "cpu": "0",
+            "memory": "15872Ki"
+          }
+        }
+      ]
+    }
+  ]
+}
+
+
+
+# Métricas personalizadas
+# Crear namespace
+kubectl create -f ./namespaces.yaml
+
+# Desplegar prometheus
+kubectl create -f ./prometheus
+
+# Ver pod
+kubectl get po -n monitoring
+
+# Generar certificados TLS necesarios para el adaptador de prometheus
+make certs
+
+#Correcto:
+#Generating custom-metrics-api/cm-adapter-serving-certs.yaml
+
+# Desplegar adaptador de la API de métricas personalizadas de prometheus
+kubectl create -f ./custom-metrics-api
+
+# Ver pods corriendo
+kubectl get po -n monitoring
+
+# Listar métricas provistas por prometheus
+kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1" | jq .
+
+# Resultado
+{
+  "kind": "APIResourceList",
+  "apiVersion": "v1",
+  "groupVersion": "custom.metrics.k8s.io/v1beta1",
+  "resources": []
+}
+
+
+# Autoescalado
+# Crear pod a desplegar
+kubectl create -f ./podinfo/podinfo-svc.yaml
+kubectl create -f ./podinfo/podinfo-dep.yaml
+
+# Ver el total de peticiones por segundo
+kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/*/http_requests" | jq .
+
+# Crear HPA
+kubectl create -f ./podinfo/podinfo-hpa-custom.yaml
