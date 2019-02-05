@@ -5,7 +5,7 @@ sudo apt  install docker.io
 sudo docker run hello-world
 
 # Instalar kubectl
-# VÌa https://kubernetes.io/docs/tasks/tools/install-kubectl/
+# V√≠a https://kubernetes.io/docs/tasks/tools/install-kubectl/
 
 sudo apt-get update && sudo apt-get install -y apt-transport-https
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
@@ -15,12 +15,12 @@ sudo apt-get install -y kubectl
 
 # Probar que funciona
 kubectl cluster-info
-# Al correr localmente sin un cluster creado (como minikube) la respuesta ser·: The connection to the server localhost:8080 was refused - did you specify the right host or port?
+# Al correr localmente sin un cluster creado (como minikube) la respuesta ser√°: The connection to the server localhost:8080 was refused - did you specify the right host or port?
 
 # Instalar minikube
 # Descargar
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \ && chmod +x minikube
-# AÒadir al path
+# A√±adir al path
 sudo cp minikube /usr/local/bin && rm minikube
 
 # Probar que funciona
@@ -29,7 +29,7 @@ minikube status
 # Instalar go
 apt  install golang-go
 # Configurar path
-# En esta m·quina:
+# En esta m√°quina:
 export PATH=$PATH:/home/ubuntu/go/bin
 
 # Instalar hey
@@ -47,7 +47,7 @@ minikube start --memory 4096 --cpus 2 --vm-driver=none
 #
 # When using the none driver, the kubectl config and credentials generated will be root owned and will appear in the root home directory.
 
-# Comprobar que est· correctamente iniciado
+# Comprobar que est√° correctamente iniciado
 minikube status && kubectl cluster-info
 
 # Addons de minikube
@@ -123,7 +123,7 @@ metrics-server-68d85f76bb-lr6kl    1/1     Running   0          16s
 storage-provisioner                1/1     Running   0          106s
 
 
-# Ver mÈtricas de los nodos
+# Ver m√©tricas de los nodos
 kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes" | jq .
 
 {
@@ -151,7 +151,7 @@ kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes" | jq .
 
 
 
-# Ver mÈtricas de los pods
+# Ver m√©tricas de los pods
 kubectl get --raw "/apis/metrics.k8s.io/v1beta1/pods" | jq .
 
 {
@@ -363,7 +363,7 @@ kubectl get --raw "/apis/metrics.k8s.io/v1beta1/pods" | jq .
 
 
 
-# MÈtricas personalizadas
+# M√©tricas personalizadas
 # Crear namespace
 kubectl create -f ./namespaces.yaml
 
@@ -379,13 +379,13 @@ make certs
 #Correcto:
 #Generating custom-metrics-api/cm-adapter-serving-certs.yaml
 
-# Desplegar adaptador de la API de mÈtricas personalizadas de prometheus
+# Desplegar adaptador de la API de m√©tricas personalizadas de prometheus
 kubectl create -f ./custom-metrics-api
 
 # Ver pods corriendo
 kubectl get po -n monitoring
 
-# Listar mÈtricas provistas por prometheus
+# Listar m√©tricas provistas por prometheus
 kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1" | jq .
 
 # Resultado
@@ -407,3 +407,381 @@ kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/*
 
 # Crear HPA
 kubectl create -f ./podinfo/podinfo-hpa-custom.yaml
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{
+  "kind": "APIResourceList",
+  "apiVersion": "v1",
+  "groupVersion": "custom.metrics.k8s.io/v1beta1",
+  "resources": [
+    {
+      "name": "pods/fs_inodes_free",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/fs_limit_bytes",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/fs_reads_bytes",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/fs_writes",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/last_seen",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/spec_cpu_shares",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/spec_memory_reservation_limit_bytes",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/fs_io_time_weighted",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/fs_usage_bytes",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/memory_max_usage_bytes",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/memory_swap",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/tasks_state",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/fs_sector_reads",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/fs_writes_merged",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/memory_cache",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/memory_working_set_bytes",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/network_udp_usage",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/cpu_system",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/fs_write",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/fs_writes_bytes",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/memory_usage_bytes",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/spec_cpu_period",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/cpu_usage",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/cpu_user",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/fs_reads_merged",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/memory_failcnt",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/spec_memory_limit_bytes",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/fs_sector_writes",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/memory_failures",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/memory_rss",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/network_tcp_usage",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/fs_io_current",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/fs_io_time",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/cpu_load_average_10s",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/fs_inodes",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/fs_read",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/fs_reads",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/spec_memory_swap_limit_bytes",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    },
+    {
+      "name": "pods/start_time_seconds",
+      "singularName": "",
+      "namespaced": true,
+      "kind": "MetricValueList",
+      "verbs": [
+        "get"
+      ]
+    }
+  ]
+}
