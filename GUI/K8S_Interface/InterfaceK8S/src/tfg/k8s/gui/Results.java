@@ -10,11 +10,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import javax.swing.JScrollPane;
 import javax.swing.JEditorPane;
 import javax.swing.JTextPane;
+
+import org.json.simple.parser.ParseException;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -22,6 +27,7 @@ public class Results {
 
 	private JFrame frame_results;
 	private String salidaHey = "";
+	private ReadJSON readJson = new ReadJSON();
 
 	/**
 	 * Launch the application.
@@ -136,12 +142,11 @@ public class Results {
 			}
 		};
 		
-		
 		resultsThread.setName("resultsThread");
-		resultsThread.start();
 		hpaThread.setName("hpaThread");
-		hpaThread.start();
 		deploymentThread.setName("deploymentThread");
+		resultsThread.start();
+		hpaThread.start();
 		deploymentThread.start();
 	}
 	
@@ -197,6 +202,8 @@ public class Results {
 		while (true) {
 
 			//TODO
+			
+			//Sleep
 			try {
 				Thread.currentThread();
 				Thread.sleep(100);
@@ -210,6 +217,17 @@ public class Results {
 		while (true) {
 
 			//TODO
+			try {
+				readJson.readDeployments("default");
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+			
+			//Sleep
 			try {
 				Thread.currentThread();
 				Thread.sleep(100);
