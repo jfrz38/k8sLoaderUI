@@ -97,8 +97,12 @@ public class ReadJSON {
 				JSONObject statusJSON = (JSONObject) aux.get("status");
 				replicas = (String) statusJSON.get("replicas").toString();
 				updatedReplicas = (String) statusJSON.get("updatedReplicas").toString();
-				availableReplicas = (String) statusJSON.get("availableReplicas").toString();
-				readyReplicas = (String) statusJSON.get("readyReplicas").toString();
+				Long ar = (Long) statusJSON.get("availableReplicas");//.toString();
+				if(ar == null)availableReplicas="0"; 
+				else availableReplicas = (String) statusJSON.get("availableReplicas").toString();
+				Long rr = (Long) statusJSON.get("readyReplicas");//.toString();
+				if(rr == null) readyReplicas = "0";
+				else readyReplicas = (String) statusJSON.get("readyReplicas").toString();
 				JSONArray conditions = (JSONArray) statusJSON.get("conditions");
 				status = true;
 				for(Object c : conditions) {
@@ -195,6 +199,72 @@ public class ReadJSON {
 		return servicesArray;
 	}
 
+	public String[] getDeployment(String deploymentName, String namespaceName) throws ParseException {
+
+		// Posiciones:
+		// 0 = nombre
+		// 1 = desired
+		// 2 = current
+		// 3 = up-to-date
+		// 4 = available
+		// 5 = age
+		String[] str = new String[6];
+		JSONParser builder = new JSONParser();
+		JSONArray json = (JSONArray) builder.parse(
+				getOutputShell("sudo kubectl get deployment " + deploymentName + " -n " + namespaceName + " -o json"));
+
+		for (Object o : json) {
+			JSONObject aux = (JSONObject) o;
+			JSONObject metadata = (JSONObject) aux.get("metadata");
+			// fecha = (String) metadata.get("creationTimestamp");
+			str[0] = (String) metadata.get("name");
+			JSONObject statusJSON = (JSONObject) aux.get("status");
+			str[1] = (String) statusJSON.get("replicas").toString();
+			str[3] = (String) statusJSON.get("updatedReplicas").toString();
+			Long ar = (Long) statusJSON.get("availableReplicas");
+			if (ar == null)
+				str[4] = "0";
+			else
+				str[4] = (String) statusJSON.get("availableReplicas").toString();
+			Long rr = (Long) statusJSON.get("readyReplicas");
+			if (rr == null)
+				str[2] = "0";
+			else
+				str[2] = (String) statusJSON.get("readyReplicas").toString();
+		}
+		return str;
+	}
+	
+	public String[] getHPA(String nameHPA) throws ParseException {
+		// Posiciones:
+		// 0 = nombre
+		// 1 = reference
+		// 2 = targets
+		// 3 = minpods
+		// 4 = maxpods
+		// 5 = replicas
+		// 6 = age
+		String[] str = new String[7];
+		JSONParser builder = new JSONParser();
+		JSONArray json = (JSONArray) builder.parse(getOutputShell("sudo kubectl get hpa " + nameHPA + " -o json"));
+
+		for (Object o : json) {
+			JSONObject aux = (JSONObject) o;
+			JSONObject metadata = (JSONObject) aux.get("metadata");
+			// fecha = (String) metadata.get("creationTimestamp");
+			str[0] = (String) metadata.get("name");
+			JSONObject specJSON = (JSONObject) aux.get("spec");
+			str[3] = (String) specJSON.get("minReplicas").toString();
+			str[4] = (String) specJSON.get("maxReplicas").toString();
+			JSONObject scaleTargetRefJSON = (JSONObject) specJSON.get("scaleTargetRef");
+			str[1] = (String) scaleTargetRefJSON.get("kind") +"\\"+ (String) scaleTargetRefJSON.get("name");
+			str[2] = (String) specJSON.get("targetCPUUtilizationPercentage").toString();
+			JSONObject statusJSON = (JSONObject) aux.get("status");
+			str[5] = (String) statusJSON.get("currentReplicas").toString();
+
+		}
+		return str;
+	}
 	public String getOutputShell(String comando) {
 		String str = "[\n";
 		str += salidaScript(comando).toString();
