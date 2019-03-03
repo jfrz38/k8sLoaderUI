@@ -75,6 +75,11 @@ public class Results {
 		textPane_hpa = new JTextPane();
 	    textPane_hpa.setEditable(false);
 	    textPane_hpa.setText("NAME\tREFERENCE\tTARGETS\tMINPODS\tMAXPODS\tREPLICAS\tAGE\n");
+	    
+	    textPane_heyResult = new JTextPane();
+	    
+	    textPane_heyResult.setText("Enviando datos");
+	    textPane_heyResult.setEditable(false);
 		
 		lanzarHilos(p);
 		
@@ -153,11 +158,7 @@ public class Results {
 	    gbc_scrollPane_Resultados.gridy = 0;
 	    panel_dcha.add(scrollPane_Resultados, gbc_scrollPane_Resultados);
 	    scrollPane_Resultados.setMinimumSize(minSize2);
-	    
-	    textPane_heyResult = new JTextPane();
 	    scrollPane_Resultados.setViewportView(textPane_heyResult);
-	    textPane_heyResult.setText("Enviando datos");
-	    textPane_heyResult.setEditable(false);
 	    
 	    JLabel lblResultados = new JLabel("Resultados");
 	    scrollPane_Resultados.setColumnHeaderView(lblResultados);
@@ -239,11 +240,16 @@ public class Results {
 	
 	public boolean runCommand(Peticion p) {
 		
+		if(System.getProperty("os.name").startsWith("Windows")) {
+			textPane_heyResult.setText("Windows");
+			return false;
+		}
+
 		//Conseguir URL
 		//minikube service <servicio> --url
 		String urlMinikube;
 		try {
-			Process proc = new ProcessBuilder("bash", "-c", "minikube service "+p.getServicio()+" --url").start();
+			Process proc = new ProcessBuilder("bash", "-c", "sudo minikube service "+p.getServicio()+" --url").start();
 			proc.waitFor();
 			StringBuffer output = new StringBuffer();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -252,7 +258,8 @@ public class Results {
 				output.append(line + "\n");
 			}
 			urlMinikube = output.toString();
-			//urlMinikube = urlMinikube.replace("\t", " ");
+			System.out.println("url minikube = "+urlMinikube);
+			System.out.println("Comando = minikube service "+p.getServicio()+" --url");
 		} catch (Throwable t) {
 			t.printStackTrace();
 			return false;
@@ -267,7 +274,7 @@ public class Results {
 		if(!p.getPeticionesPorSegundo().equals("")) comando += " -q "+p.getPeticionesPorSegundo();
 		
 		comando+=" "+urlMinikube;
-		//System.out.println("comando = "+comando);
+		System.out.println("Comando hey = "+comando);
 		try {
 			Process proc = new ProcessBuilder("bash", "-c", comando).start();
 			proc.waitFor();
@@ -279,6 +286,7 @@ public class Results {
 			}
 			//salidaHey = output.toString();
 			textPane_heyResult.setText(output.toString());
+			System.out.println("Salida = \n"+output.toString());
 			return true;
 		} catch (Throwable t) {
 			t.printStackTrace();
@@ -308,6 +316,8 @@ public class Results {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
+			System.out.println("Hilo HPA");
 		}
 	}
 
@@ -333,6 +343,8 @@ public class Results {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
+			System.out.println("Hilo deployment");
 		}
 	}
 }

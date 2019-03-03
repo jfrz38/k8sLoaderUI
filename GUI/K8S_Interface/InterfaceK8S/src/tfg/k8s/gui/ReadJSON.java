@@ -20,8 +20,11 @@ public class ReadJSON {
 	public ArrayList<NamespaceK8S> servicesArray = new ArrayList<NamespaceK8S>();*/
 	//public ArrayList<HpaK8S> hpaArray = new ArrayList<HpaK8S>();
 	
+	public static boolean OS;	//True = Windows ; False = Unix
+	
 	public ReadJSON() {
-		
+		if(System.getProperty("os.name").startsWith("Windows")) OS = true;
+		else OS = false;
 	}
 
 	public ArrayList<NamespaceK8S> readNamespace() throws FileNotFoundException, IOException, ParseException {
@@ -29,18 +32,20 @@ public class ReadJSON {
 		ArrayList<NamespaceK8S> namespacesArray = new ArrayList<NamespaceK8S>();
 
 		JSONParser builder = new JSONParser();
-		 //JSONArray json = (JSONArray) builder.parse(new FileReader("C:\\Users\\josef\\Desktop\\namespaces.json"));
-		 //En Ubuntu probar estsa línea
-		JSONArray json = (JSONArray) builder.parse(getOutputShell("sudo kubectl get namespaces -o json"));
+		JSONObject json;
+		if(OS) {
+			//Windows
+			json = (JSONObject) builder.parse(new FileReader("C:\\Users\\josef\\Desktop\\namespaces.json"));
+		}else {
+			json = (JSONObject) builder.parse(getOutputShell("sudo kubectl get namespaces -o json"));
+		}
 
-		// Crear hilos para leer JSON constantemente y actualizar valores
+		//for (Object o : json) {
 
-		for (Object o : json) {
-
-			JSONObject jsonNamespace = (JSONObject) o;
+			//JSONObject jsonNamespace = (JSONObject) o;
 
 			// Items es un JSONArray y cada lista tiene un objeto JSONObject
-			JSONArray items = (JSONArray) jsonNamespace.get("items");
+			JSONArray items = (JSONArray) json.get("items");
 			for (Object i : items) {
 				JSONObject aux = (JSONObject) i;
 				JSONObject metadata = (JSONObject) aux.get("metadata");
@@ -49,7 +54,7 @@ public class ReadJSON {
 				namespacesArray.add(namespace);
 			}
 
-		}
+		//}
 		
 		return namespacesArray;
 	}
@@ -59,9 +64,15 @@ public class ReadJSON {
 	 	ArrayList<DeploymentK8S> deploymentsArray = new ArrayList<DeploymentK8S>();
 		
 		JSONParser builder = new JSONParser();
-		//String salida = getOutputShell();
-		//JSONArray json = (JSONArray) builder.parse(new FileReader("C:\\Users\\josef\\Desktop\\deployments.json"));
-		JSONArray json = (JSONArray) builder.parse(getOutputShell("sudo kubectl get deployment -n "+namespace+" -o json"));
+		
+		JSONObject json;
+		if(OS) {
+			//Windows
+			json = (JSONObject) builder.parse(new FileReader("C:\\Users\\josef\\Desktop\\deployments.json"));
+		}else {
+			json = (JSONObject) builder.parse(getOutputShell("sudo kubectl get deployment -n "+namespace+" -o json"));
+		}
+		
 		
 		/*if(namespace.equals("kube-system")) {
 			DeploymentK8S dk8s = new DeploymentK8S("dep kube system");
@@ -83,9 +94,9 @@ public class ReadJSON {
 		String apiVersion; //
 		String fecha; //
 		
-		for (Object o : json) {
-			JSONObject deployment = (JSONObject) o;
-			JSONArray items = (JSONArray) deployment.get("items");
+		//for (Object o : json) {
+			//JSONObject deployment = (JSONObject) o;
+			JSONArray items = (JSONArray) json.get("items");
 			for(Object i : items) {
 				JSONObject aux = (JSONObject) i;
 				apiVersion = (String) aux.get("apiVersion");
@@ -119,7 +130,7 @@ public class ReadJSON {
 				deploymentsArray.add(d);
 				
 			}
-		}
+		//}
 		return deploymentsArray;
 	}
 	
@@ -128,14 +139,19 @@ public class ReadJSON {
 		ArrayList<HpaK8S> hpaArray = new ArrayList<HpaK8S>();
 		
 		JSONParser builder = new JSONParser();
-		//String salida = getOutputShell();
-		//JSONArray json = (JSONArray) builder.parse(new FileReader("C:\\Users\\josef\\Desktop\\hpa.json"));
-		JSONArray json = (JSONArray) builder.parse(getOutputShell("sudo kubectl get hpa -n "+namespace+" -o json"));
+		
+		JSONObject json;
+		if(OS) {
+			//Windows
+			json = (JSONObject) builder.parse(new FileReader("C:\\Users\\josef\\Desktop\\hpa.json"));
+		}else {
+			json = (JSONObject) builder.parse(getOutputShell("sudo kubectl get hpa -n "+namespace+" -o json"));
+		}
 		String name;
 		
-		for (Object o : json) {
-			JSONObject hpa = (JSONObject) o;
-			JSONArray items = (JSONArray) hpa.get("items");
+		//for (Object o : json) {
+			//JSONObject hpa = (JSONObject) o;
+			JSONArray items = (JSONArray) json.get("items");
 			for(Object i : items) {
 				JSONObject aux = (JSONObject) i;
 				JSONObject metadata = (JSONObject) aux.get("metadata");
@@ -156,26 +172,31 @@ public class ReadJSON {
 				hpaArray.add(h);
 				
 			}
-		}
+		//}
 		return hpaArray;
 	}
 
-	public ArrayList<ServiceK8S> readServices(String namespace) throws FileNotFoundException, IOException, ParseException {
+	public ArrayList<ServiceK8S> readServices() throws FileNotFoundException, IOException, ParseException {
 		
 		ArrayList<ServiceK8S> servicesArray = new ArrayList<ServiceK8S>();
 		
 		JSONParser builder = new JSONParser();
-		//JSONArray json = (JSONArray) builder.parse(new FileReader("C:\\Users\\josef\\Desktop\\services.json"));
-		JSONArray json = (JSONArray) builder.parse(getOutputShell("sudo kubectl get svc -o json"));
+		JSONObject json;
+		if(OS) {
+			//Windows
+			json = (JSONObject) builder.parse(new FileReader("C:\\Users\\josef\\Desktop\\services.json"));
+		}else {
+			json = (JSONObject) builder.parse(getOutputShell("sudo kubectl get svc -o json"));
+		}
 		
 		String name ="";
 		//String clusterIP ="";
 		//String externalIP ="";
 		//String port = "";
 		
-		for (Object o : json) {
-			JSONObject service = (JSONObject) o;
-			JSONArray items = (JSONArray) service.get("items");
+		//for (Object o : json) {
+			//JSONObject service = (JSONObject) o;
+			JSONArray items = (JSONArray) json.get("items");
 			for(Object i : items) {
 				JSONObject aux = (JSONObject) i;
 				JSONObject metadata = (JSONObject) aux.get("metadata");
@@ -195,7 +216,7 @@ public class ReadJSON {
 				servicesArray.add(s);
 				
 			}
-		}
+		//}
 		return servicesArray;
 	}
 
@@ -209,16 +230,32 @@ public class ReadJSON {
 		// 4 = available
 		// 5 = age
 		String[] str = new String[6];
+		
 		JSONParser builder = new JSONParser();
-		JSONArray json = (JSONArray) builder.parse(
-				getOutputShell("sudo kubectl get deployment " + deploymentName + " -n " + namespaceName + " -o json"));
+		
+		JSONObject json = null;
+		if(OS) {
+			//Windows
+			try {
+				json = (JSONObject) builder.parse(new FileReader("C:\\Users\\josef\\Desktop\\getDeployment.json"));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else {
+			json = (JSONObject) builder.parse(
+					getOutputShell("sudo kubectl get deployment " + deploymentName + " -n " + namespaceName + " -o json"));
+		}
+		
+		
 
-		for (Object o : json) {
-			JSONObject aux = (JSONObject) o;
-			JSONObject metadata = (JSONObject) aux.get("metadata");
+		//for (Object o : json) {
+			//JSONObject aux = (JSONObject) o;
+			JSONObject metadata = (JSONObject) json.get("metadata");
 			// fecha = (String) metadata.get("creationTimestamp");
 			str[0] = (String) metadata.get("name");
-			JSONObject statusJSON = (JSONObject) aux.get("status");
+			JSONObject statusJSON = (JSONObject) json.get("status");
 			str[1] = (String) statusJSON.get("replicas").toString();
 			str[3] = (String) statusJSON.get("updatedReplicas").toString();
 			Long ar = (Long) statusJSON.get("availableReplicas");
@@ -231,11 +268,12 @@ public class ReadJSON {
 				str[2] = "0";
 			else
 				str[2] = (String) statusJSON.get("readyReplicas").toString();
-		}
+		//}
 		return str;
 	}
 	
 	public String[] getHPA(String nameHPA) throws ParseException {
+
 		// Posiciones:
 		// 0 = nombre
 		// 1 = reference
@@ -245,31 +283,80 @@ public class ReadJSON {
 		// 5 = replicas
 		// 6 = age
 		String[] str = new String[7];
+
 		JSONParser builder = new JSONParser();
-		JSONArray json = (JSONArray) builder.parse(getOutputShell("sudo kubectl get hpa " + nameHPA + " -o json"));
+		/*
+		 * JSONArray json = null; if(OS) { //Windows try { json = (JSONArray)
+		 * builder.parse(new FileReader("C:\\Users\\josef\\Desktop\\salidaHPA.json")); }
+		 * catch (FileNotFoundException e) { e.printStackTrace(); } catch (IOException
+		 * e) { e.printStackTrace(); } }else { json = (JSONArray)
+		 * builder.parse(getOutputShell("sudo kubectl get hpa " + nameHPA +
+		 * " -o json")); }
+		 */
+		// JSONArray json = (JSONArray) builder.parse(getOutputShell("sudo kubectl get
+		// hpa " + nameHPA + " -o json"));
 
-		for (Object o : json) {
-			JSONObject aux = (JSONObject) o;
-			JSONObject metadata = (JSONObject) aux.get("metadata");
-			// fecha = (String) metadata.get("creationTimestamp");
-			str[0] = (String) metadata.get("name");
-			JSONObject specJSON = (JSONObject) aux.get("spec");
-			str[3] = (String) specJSON.get("minReplicas").toString();
-			str[4] = (String) specJSON.get("maxReplicas").toString();
-			JSONObject scaleTargetRefJSON = (JSONObject) specJSON.get("scaleTargetRef");
-			str[1] = (String) scaleTargetRefJSON.get("kind") +"\\"+ (String) scaleTargetRefJSON.get("name");
-			str[2] = (String) specJSON.get("targetCPUUtilizationPercentage").toString();
-			JSONObject statusJSON = (JSONObject) aux.get("status");
-			str[5] = (String) statusJSON.get("currentReplicas").toString();
-
+		JSONObject json = null;
+		if (OS) {
+			// Windows
+			try {
+				json = (JSONObject) builder.parse(new FileReader("C:\\Users\\josef\\Desktop\\salidaHPA.json"));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			json = (JSONObject) builder.parse(getOutputShell("sudo kubectl get hpa " + nameHPA + " -o json"));
 		}
+
+		// for (Object o : json) {
+		// JSONObject aux = (JSONObject) o;
+		JSONObject metadata = (JSONObject) json.get("metadata");
+		// fecha = (String) metadata.get("creationTimestamp");
+		str[0] = (String) metadata.get("name");
+		JSONObject specJSON = (JSONObject) json.get("spec");
+		str[3] = (String) specJSON.get("minReplicas").toString();
+		str[4] = (String) specJSON.get("maxReplicas").toString();
+		JSONObject scaleTargetRefJSON = (JSONObject) specJSON.get("scaleTargetRef");
+		str[1] = (String) scaleTargetRefJSON.get("kind") + "\\" + (String) scaleTargetRefJSON.get("name");
+		JSONObject statusJSON = (JSONObject) json.get("status");
+		str[5] = (String) statusJSON.get("currentReplicas").toString();
+		// Si no es custom metric, se coge el targetCPUUtilizationPercentage
+		//
+
+		try {
+			String targetCPU = (String) specJSON.get("targetCPUUtilizationPercentage").toString();
+			str[2] = targetCPU;
+		} catch (java.lang.NullPointerException exception) {
+			JSONObject annotations = (JSONObject) metadata.get("annotations");
+			String current_metrics = (String) annotations.get("autoscaling.alpha.kubernetes.io/current-metrics");
+			String metrics = (String) annotations.get("autoscaling.alpha.kubernetes.io/metrics");
+			JSONArray json_current_metrics = (JSONArray) builder.parse(current_metrics);
+			JSONArray json_metrics = (JSONArray) builder.parse(metrics);
+			JSONObject ocm = (JSONObject) json_current_metrics.get(0);
+			JSONObject pods_cm = (JSONObject) ocm.get("pods");
+			String metricName = (String) pods_cm.get("metricName");
+			//System.out.println("metricName = " + metricName);
+			String currentAverageValue = (String) pods_cm.get("currentAverageValue");
+
+			JSONObject om = (JSONObject) json_metrics.get(0);
+			JSONObject pods_m = (JSONObject) om.get("pods");
+			String targetAverageValue = (String) pods_m.get("targetAverageValue");
+			// System.err.println("current_metrics = "+current_metrics.toString());
+			// System.err.println("metrics = "+metrics.toString());
+			str[2] = currentAverageValue + " / " + targetAverageValue;
+		}
+
 		return str;
 	}
+
 	public String getOutputShell(String comando) {
-		String str = "[\n";
-		str += salidaScript(comando).toString();
-		str += "\n]";
-		return str;
+		//String str = "[\n";
+		//str += salidaScript(comando).toString();
+		//str += "\n]";
+		//return str;
+		return salidaScript(comando).toString();
 	}
 
 	public StringBuffer salidaScript(String command) {

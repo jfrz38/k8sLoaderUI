@@ -310,7 +310,7 @@ public class MainInterface {
 		}else {
 			deploymentsArray = rj.readDeployments(namespacesArray.get(0).getName());
 			hpaArray = rj.readHPA(namespacesArray.get(0).getName());
-			servicesArray = rj.readServices(namespacesArray.get(0).getName());
+			servicesArray = rj.readServices();
 			inicializarComboBoxDatos();
 		}
 		
