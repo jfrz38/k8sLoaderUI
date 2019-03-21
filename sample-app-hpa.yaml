@@ -71,4 +71,4 @@ spec:
       metricName: go_threads
       # target 500 milli-requests per second,
       # which is 1 request every two seconds
-      targetAverageValue: 500m 
+      targetAverageValue: 100 
