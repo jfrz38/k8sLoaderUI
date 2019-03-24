@@ -99,10 +99,8 @@ hr{
     <input type="number" min="1" name="peticionesPorSegundo" value="">
     <hr>
     <div>URL (servicio)</div>
-    <select name="servicio" id="select_servicio">
-    	<% for( ServiceK8S s : MainInterface.servicesArray ){ %>
-    	<option value="<%= s.getName() %>"><%= s.getName() %></option>
-		<%}%>
+    <select name="servicio" id="comboBoxService">
+    
 	</select>
 	
   </div>
@@ -132,8 +130,7 @@ hr{
 	</form>
     <hr>
     <div>
-    <input type="submit" style="margin-right:20%;" name="reloadBtn" value="Reload" onclick="window.location.href='Results.jsp'">
-	<input type="submit" name="sendBtn" value="Send" form="results_form">
+    <input type="submit" name="sendBtn" value="Send" form="results_form">
      
     </div>
 	</div>
@@ -144,7 +141,7 @@ hr{
 			var text = e.options[e.selectedIndex].text;
 		}*/
      
-  			/**LOAD COMBO BOX DEPLOYMENT**/
+  			/**REFRESH COMBO BOX DEPLOYMENT**/
   			function refreshComboBoxDeployment(){
   				var e = document.getElementById("comboBoxNamespace");
   		  		//var value = e.options[e.selectedIndex].value;
@@ -179,6 +176,7 @@ hr{
   			}
   			
 
+  			/**REFRESH COMBO BOX HPA**/
   			function refreshComboBoxHPA(){
   				var e = document.getElementById("comboBoxNamespace");
   				var text;
@@ -211,10 +209,45 @@ hr{
   				}
   			}
   			
+  			/**REFRESH COMBO BOX SERVICE**/
+  			function refreshComboBoxService(){
+  				var e = document.getElementById("comboBoxNamespace");
+  		  		//var value = e.options[e.selectedIndex].value;
+  				var text;
+  				if(e.options[e.selectedIndex].text !== undefined){
+  					text = e.options[e.selectedIndex].text;
+  				}else{
+  					text = "default";
+  				}
+  				var urlRefreshComboBoxService = "RefreshComboBoxService.jsp?namespace="+text;
+  				if (window.XMLHttpRequest) {
+  					requestRefreshComboBoxService = new XMLHttpRequest();
+  				} else if (window.ActiveXObject) {
+  					requestRefreshComboBoxService = new ActiveXObject("Microsoft.XMLHTTP");
+  				}
+  				try {
+  					requestRefreshComboBoxService.onreadystatechange = getInfoRefreshComboBoxService;
+  					requestRefreshComboBoxService.open("GET", urlRefreshComboBoxService, true);
+  					requestRefreshComboBoxService.send();	
+  				} catch (e) {
+  					alert("Unable to connect to server");
+  				}
+  			}		
+  			
+  			function getInfoRefreshComboBoxService() {	
+  				if (requestRefreshComboBox.readyState == 4) {
+  					var ret = requestRefreshComboBox.responseText;
+  					//document.getElementById('comboBoxDeployment').innerHTML = eval(ret)[0];
+  					document.getElementById('comboBoxService').innerHTML = ret;
+  					
+  				}
+  			}
+  			
 			function refreshComboBox() {
   				
 				refreshComboBoxDeployment()
 				refreshComboBoxHPA()
+				refreshComboBoxService()
 				
   			}
 			

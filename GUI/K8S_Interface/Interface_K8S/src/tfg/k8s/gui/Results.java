@@ -18,6 +18,7 @@ public class Results {
 	public static ArrayList<HpaK8S> arrayHPA;
 	public static ArrayList<DeploymentK8S> arrayDeployment;
 	public static Date startDate;
+	public static boolean heyActivo = true;
 	
 	public Results() {
 		arrayHPA = new ArrayList<HpaK8S>();
@@ -226,10 +227,12 @@ public class Results {
 			// salidaHey = output.toString();
 			// textPane_heyResult.setText(output.toString());
 			salidaHey = output.toString();
-			System.out.println("Salida = \n" + output.toString());
+			System.out.println("Salida hey = \n" + output.toString());
+			heyActivo = false;
 			return true;
 		} catch (Throwable t) {
 			t.printStackTrace();
+			heyActivo = false;
 			return false;
 		}
 	}

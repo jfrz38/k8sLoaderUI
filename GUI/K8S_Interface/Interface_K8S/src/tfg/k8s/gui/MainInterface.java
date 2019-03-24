@@ -50,11 +50,11 @@ public class MainInterface extends HttpServlet {
     	if(!namespacesArray.isEmpty()) {
     		deploymentsArray = rj.readDeployments(namespacesArray.get(0).getName());
         	hpaArray = rj.readHPA(namespacesArray.get(0).getName());
-        	servicesArray = rj.readServices();
+        	servicesArray = rj.readServices(namespacesArray.get(0).getName());
     	}else {
     		deploymentsArray = rj.readDeployments("");
         	hpaArray = rj.readHPA("");
-        	servicesArray = rj.readServices();
+        	servicesArray = rj.readServices("");
     	}
     	
     }
@@ -63,6 +63,7 @@ public class MainInterface extends HttpServlet {
     	String namespace = request.getParameter("namespace");
     	deploymentsArray = rj.readDeployments(namespace);
     	hpaArray = rj.readHPA(namespace);
+    	servicesArray = rj.readServices(namespace);
     }
     
     public void refreshData(String namespace) throws FileNotFoundException, IOException, ParseException {

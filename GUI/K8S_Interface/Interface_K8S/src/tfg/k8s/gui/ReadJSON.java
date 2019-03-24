@@ -188,7 +188,7 @@ public class ReadJSON {
 		return hpaArray;
 	}
 
-	public ArrayList<ServiceK8S> readServices() throws FileNotFoundException, IOException, ParseException {
+	public ArrayList<ServiceK8S> readServices(String namespace) throws FileNotFoundException, IOException, ParseException {
 		
 		ArrayList<ServiceK8S> servicesArray = new ArrayList<ServiceK8S>();
 		
@@ -198,7 +198,7 @@ public class ReadJSON {
 			//Windows
 			json = (JSONObject) builder.parse(new FileReader("C:\\Users\\josef\\Desktop\\services.json"));
 		}else {
-			json = (JSONObject) builder.parse(getOutputShell("sudo kubectl get svc -o json"));
+			json = (JSONObject) builder.parse(getOutputShell("sudo kubectl get svc -n "+namespace+" -o json"));
 		}
 		
 		String name ="";
