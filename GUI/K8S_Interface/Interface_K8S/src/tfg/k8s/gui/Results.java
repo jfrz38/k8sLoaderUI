@@ -177,13 +177,6 @@ public class Results {
 			// textPane_heyResult.setText("Windows");
 			salidaHey = "Windows";
 			System.out.println("salidaHey = Windows");
-			
-			try {
-				Thread.sleep(1 * 1);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			System.out.println("Fin thread sleep hey windows");
 			heyActivo = false;
 			return false;
 		}
