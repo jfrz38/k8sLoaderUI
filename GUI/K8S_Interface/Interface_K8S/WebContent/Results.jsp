@@ -190,13 +190,15 @@ background-color: white;
 		
 		function func_stopHPA() {
 			var elem = document.getElementById('stop_hpa_button');
-			var txt = elem.textContent || elem.innerText;
+			/*var txt = elem.textContent || elem.innerText;
 			
 			if(txt=="Stop"){
 				var urlStopHPA = "DoActionButton.jsp?accion=stopHPA";
 			}else{
 				var urlStopHPA = "DoActionButton.jsp?accion=startHPA";
-			}
+			}*/
+			
+			var urlStopHPA = "DoActionButton.jsp?accion=stopHPA";
 			
 			if (window.XMLHttpRequest) {
 				requestStopHPA = new XMLHttpRequest();
@@ -216,15 +218,16 @@ background-color: white;
 				if (requestStopHPA.readyState == 4) {
 					//document.getElementById("stop_hpa_button").disabled = true;
 					
-					if(txt=="Stop"){
+					/*if(txt=="Stop"){
 						document.getElementById("stop_hpa_button").innerHTML = "Start";
 					}else{
 						document.getElementById("stop_hpa_button").innerHTML = "Stop";
-					}
+					}*/
 				}
 			}
 
 		}
+		
 		
 		/**CLEAR DEPLOYMENT**/
 		
@@ -258,13 +261,15 @@ background-color: white;
 		
 		function func_stopDeployment() {
 			var elem = document.getElementById('stop_deployment_button');
-			var txt = elem.textContent || elem.innerText;
+			/*var txt = elem.textContent || elem.innerText;
 			if(txt=="Stop"){
 				var urlStopDeployment = "DoActionButton.jsp?accion=stopDeployment";
 			}else{
 				var urlStopDeployment = "DoActionButton.jsp?accion=startDeployment";
-			}
-			//var urlStopDeployment = "DoActionButton.jsp?accion=stopDeployment";
+			}*/
+			
+			var urlStopDeployment = "DoActionButton.jsp?accion=stopDeployment";
+			
 			if (window.XMLHttpRequest) {
 				requestStopDeployment = new XMLHttpRequest();
 			} else if (window.ActiveXObject) {
@@ -281,15 +286,16 @@ background-color: white;
 			
 			function getStopDeployment() {	
 				if (requestStopDeployment.readyState == 4) {
-					if(txt=="Stop"){
+					/*if(txt=="Stop"){
 						document.getElementById("stop_deployment_button").innerHTML = "Start";
 					}else{
 						document.getElementById("stop_deployment_button").innerHTML = "Stop";
-					}
+					}*/
 				}
 			}
 
 		}
+		
 		
 		function back_button(){
 			func_stopHPA();
@@ -435,7 +441,9 @@ background-color: white;
 	<p></p>
 	
 	<label style="margin-left: 1%;">HPA</label> 
+	<!--
 	<button id="stop_hpa_button" value="Stop" onclick="func_stopHPA()" style="float: right; margin-right: 1%;">Stop</button>
+	-->
 	<button name="clear_hpa" value="Clear" onclick="func_clearHPA()" style="float: right; margin-right: 5%;">Clear</button>
 
 	<p></p>
@@ -477,7 +485,9 @@ background-color: white;
 	<p></p>
 	
 	<label>Deployment</label>
+	<!--
 	<button id="stop_deployment_button" value="Stop" onclick="func_stopDeployment()" style="float: right; margin-right: 1%;">Stop</button>
+	-->
 	<button name="clear_hpa" value="Clear" onclick="func_clearDeployment()" style="float: right; margin-right: 5%;">Clear</button>
 
 	<p></p>
