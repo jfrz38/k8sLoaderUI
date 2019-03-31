@@ -95,7 +95,7 @@ hr{
     <div>Peticiones concurrentes</div>
     <input type="number" min="1" name="peticionesConcurrentes" value="">
     <hr>
-    <div>Peticiones por segundo</div>
+    <div>Peticiones por segundo máximo (0 = sin límite)</div>
     <input type="number" min="1" name="peticionesPorSegundo" value="">
     <hr>
     <div>URL (servicio)</div>

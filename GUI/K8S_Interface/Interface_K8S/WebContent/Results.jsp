@@ -50,6 +50,19 @@ td{
 background-color: white;
 }
 
+.loadGIF{
+	position: absolute;
+	width:99%;
+	height:99%;
+	margin-left: 0.5%;
+	margin-right: 0.5%;
+}
+.imageGIF{
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20%;
+}
 </style>
 
 </head>
@@ -289,7 +302,7 @@ background-color: white;
 		/*************************/
 		function start() {
 			loadTableHPA();
-			loadTableDeployment();
+			//loadTableDeployment();
 		}
 		window.onload = start;
 		
@@ -355,11 +368,19 @@ background-color: white;
 		var options = {
 			//title: 'Deployment',
 			hAxis : {
+				//ticks: [{v:0, f:"0:00.0"}, {v:30, f:"0:30.0"}, {v:60, f:"1:00:0"}],
+				//format:'##:##s',
+				format: 'HH:mm',
 				title : 'Time (s)',
 				titleTextStyle : {
 					color : '#333'
 				},
-				minValue : 0
+				minValue : 0,
+				/*scales:{
+		            xAxes: [{
+		                display: false //this will remove all the x-axis grid lines
+		            }]
+		        }*/
 				//minValue: eval("[" + entryData + "]")[0]
 			},
 			vAxis : {
@@ -378,6 +399,19 @@ background-color: white;
 			backgroundColor : 'transparent'
 		};
 
+		
+		/*
+		var formatNumber = new google.visualization.NumberFormat(
+		        {prefix: '', negativeColor: 'red', negativeParens: true});
+
+		     var formatDate = new google.visualization.DateFormat(
+		        { prefix: 'Time: ', pattern: "dd MMM HH:mm", });
+
+		     formatDate.format(data, 0);
+		     formatNumber.format(data, 1);
+		     
+		     
+		     */
 		//var chart = new google.visualization.AreaChart(document
 				//.getElementById('chart_div'));
 		//chart.draw(data, options);
@@ -401,10 +435,6 @@ background-color: white;
 	<p></p>
 	
 	<label style="margin-left: 1%;">HPA</label> 
-	<!--  
-	<input type="submit" name="stop_hpa" value="Stop"style="float: right; margin-right: 5%;">
-	<input type="submit" name="clear_hpa" value="Clear"style="float: right; margin-right: 5%;">
-	-->
 	<button id="stop_hpa_button" value="Stop" onclick="func_stopHPA()" style="float: right; margin-right: 1%;">Stop</button>
 	<button name="clear_hpa" value="Clear" onclick="func_clearHPA()" style="float: right; margin-right: 5%;">Clear</button>
 
@@ -416,9 +446,28 @@ background-color: white;
 	<p> Resultados</p>
 	<h2>bb</h2>
     <p>bb</p>
-    <textarea readonly style="width:99%; margin-left: 0.5%; margin-right: 0.5%;">
-	<%= Results.salidaHey %>
+    <div class="parent" style="width:99%; height:70%; margin-left: 0.5%; margin-right: 0.5%; position:relative">
+  	<div class="loadGIF">
+  		<img class="imageGIF" src="${pageContext.request.contextPath}/images/loading.gif" id="loadGIF">
+  	</div>
+  	<textarea readonly style="width:99%; height:99%; margin-left: 0.5%; margin-right: 0.5%;">
+  	
+	
+	<%
+  	//out.print("<loading.gif' />");
+  	//out.flush();
+  	//mock processing
+  	while(Results.heyActivo){
+		//out.print("<br/>Processing!");
+        //out.flush();
+        Thread.sleep(10);  
+  	}
+  	out.print(Results.salidaHey);
+  	out.flush();
+	%>
 	</textarea>
+	</div>
+	
 	<br>
 	<input style="float: right; margin-right: 5%;" type="submit" name="backBtn" value="Back" onclick="back_button()">
 	<input style="float: right; margin-right: 5%;" type="submit" name="backBtn" value="Save" onclick="save_txt_button()">
@@ -433,7 +482,6 @@ background-color: white;
 
 	<p></p>
 	<div id="chart_div" style="width: 100%; height: 75%"></div>
-	<!--  <div id="div_left_down_refresh"></div> -->
 </div_left>
      
 </body>
