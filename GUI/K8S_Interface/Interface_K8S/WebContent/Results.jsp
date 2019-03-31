@@ -7,7 +7,9 @@
 
 <%
 	Peticion p = (Peticion) request.getAttribute("peticion");
-	Results r = new Results(p);
+	//Results r = new Results(p);
+	Results r = new Results();
+	//r.lanzarHilos(p);
 	//session.setAttribute("PeticionSesion", p);
 	
 %>
@@ -66,6 +68,74 @@ background-color: white;
 </style>
 
 </head>
+
+
+<body>
+
+<div_left id="div_left_up">
+	<p></p>
+	
+	<label style="margin-left: 1%;">HPA</label> 
+	<!--
+	<button id="stop_hpa_button" value="Stop" onclick="func_stopHPA()" style="float: right; margin-right: 1%;">Stop</button>
+	-->
+	<button name="clear_hpa" value="Clear" onclick="func_clearHPA()" style="float: right; margin-right: 5%;">Clear</button>
+
+	<p></p>
+	<div id="div_left_up_refresh"></div>
+</div_left>
+
+<div_right id="div_right">
+	<p> Resultados</p>
+	<h2>bb</h2>
+    <p>bb</p>
+    <div class="parent" style="width:99%; height:70%; margin-left: 0.5%; margin-right: 0.5%; position:relative">
+  	<div class="loadGIF">
+  		<img class="imageGIF" src="${pageContext.request.contextPath}/images/loading.gif" id="loadGIF">
+  	</div>
+  	<textarea readonly style="width:99%; height:99%; margin-left: 0.5%; margin-right: 0.5%;" id="textAreaHey">
+  	
+	
+	<%
+  	//out.print("<loading.gif' />");
+  	//out.flush();
+  	//mock processing
+  	/*while(Results.heyActivo){
+		//out.print("<br/>Processing!");
+        //out.flush();
+        Thread.sleep(10);  
+  	}
+  	out.print(Results.salidaHey);
+  	out.flush();*/
+	%>
+	</textarea>
+	</div>
+	
+	<br>
+	<input style="float: right; margin-right: 5%;" type="submit" name="backBtn" value="Back" onclick="back_button()">
+	<input style="float: right; margin-right: 5%;" type="submit" name="backBtn" value="Save" onclick="save_txt_button()">
+    
+</div_right>
+<div_left id="div_left_down">
+	<p></p>
+	
+	<label>Deployment</label>
+	<!--
+	<button id="stop_deployment_button" value="Stop" onclick="func_stopDeployment()" style="float: right; margin-right: 1%;">Stop</button>
+	-->
+	<button name="clear_hpa" value="Clear" onclick="func_clearDeployment()" style="float: right; margin-right: 5%;">Clear</button>
+
+	<p></p>
+	<div id="chart_div" style="width: 100%; height: 75%"></div>
+</div_left>
+     
+</body>
+<%
+	
+	r.lanzarHilos(p);
+	
+%>
+
 <script>
        
 		/**LOAD TABLE HPA**/
@@ -91,6 +161,7 @@ background-color: white;
 				var ret = request.responseText;
 				document.getElementById('div_left_up_refresh').innerHTML = ret;
 			}
+			
 		}
 		
 		window.setInterval("loadTableHPAInfinite()", 4000);
@@ -112,51 +183,6 @@ background-color: white;
 
 		}
 		
-		
-		/**LOAD TABLE DEPLOYMENT**/
-		
-		 /*function loadTableDeployment() {
-			var urlDeployment = "DeploymentTable.jsp";
-			if (window.XMLHttpRequest) {
-				requestDeployment = new XMLHttpRequest();
-			} else if (window.ActiveXObject) {
-				requestDeployment = new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			try {
-				requestDeployment.onreadystatechange = getInfoDeployment;
-				requestDeployment.open("GET", urlDeployment, true);
-				requestDeployment.send();	
-			} catch (e) {
-				alert("Unable to connect to server");
-			}
-
-		}
-		
-		function getInfoDeployment() {	
-			if (requestDeployment.readyState == 4) {
-				var ret = requestDeployment.responseText;
-				document.getElementById('div_left_down_refresh').innerHTML = ret;
-			}
-		}
-		
-		window.setInterval("loadDeploymentInfinite()", 4000);
-		
-		function loadDeploymentInfinite() {
-			var urlDeployment = "DeploymentTable.jsp";
-			if (window.XMLHttpRequest) {
-				requestDeployment = new XMLHttpRequest();
-			} else if (window.ActiveXObject) {
-				requestDeployment = new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			try {
-				requestDeployment.onreadystatechange = getInfoDeployment;
-				requestDeployment.open("GET", urlDeployment, true);
-				requestDeployment.send();	
-			} catch (e) {
-				alert("Unable to connect to server");
-			}
-
-		}*/
 		
 		
 		/**CLEAR HPA**/
@@ -296,6 +322,53 @@ background-color: white;
 
 		}
 		
+		/*
+		GET OUTPUT HEY
+		*/
+		var timer;
+		function getHeyOutput() {
+			var urlHey = "RefreshOutputHey.jsp";
+			if (window.XMLHttpRequest) {
+				requestHey = new XMLHttpRequest();
+			} else if (window.ActiveXObject) {
+				requestHey = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			try {
+				requestHey.onreadystatechange = getOutputHey;
+				requestHey.open("GET", urlHey, true);
+				requestHey.send();	
+			} catch (e) {
+				alert("Unable to connect to server");
+			}
+
+		}
+		
+		function getOutputHey() {
+			if (requestHey.readyState == 4) {
+				var ret = requestHey.responseText;
+				if(ret.includes("error = -1 ; not loaded yet")){
+					delayExecution();
+					//delay = https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
+				}else{
+					console.log("return salida");
+					document.getElementById('textAreaHey').innerHTML = ret;
+					document.getElementById('loadGIF').style.visibility = "hidden";
+				}
+				
+			}
+			
+		}
+		
+		function sleep(ms) {
+			  return new Promise(resolve => setTimeout(resolve, ms));
+		}
+		async function delayExecution() {
+			  await sleep(1000);
+			  getHeyOutput();
+		}
+		
+		//window.setInterval("getHeyOutput()", 4000);
+		
 		
 		function back_button(){
 			func_stopHPA();
@@ -308,9 +381,10 @@ background-color: white;
 		/*************************/
 		function start() {
 			loadTableHPA();
+			getHeyOutput();
 			//loadTableDeployment();
 		}
-		window.onload = start;
+		window.onload = start();
 		
 	</script>
 
@@ -434,65 +508,4 @@ background-color: white;
 	}
 	window.onload = startChart;
 </script>
-
-<body>
-
-<div_left id="div_left_up">
-	<p></p>
-	
-	<label style="margin-left: 1%;">HPA</label> 
-	<!--
-	<button id="stop_hpa_button" value="Stop" onclick="func_stopHPA()" style="float: right; margin-right: 1%;">Stop</button>
-	-->
-	<button name="clear_hpa" value="Clear" onclick="func_clearHPA()" style="float: right; margin-right: 5%;">Clear</button>
-
-	<p></p>
-	<div id="div_left_up_refresh"></div>
-</div_left>
-
-<div_right id="div_right">
-	<p> Resultados</p>
-	<h2>bb</h2>
-    <p>bb</p>
-    <div class="parent" style="width:99%; height:70%; margin-left: 0.5%; margin-right: 0.5%; position:relative">
-  	<div class="loadGIF">
-  		<img class="imageGIF" src="${pageContext.request.contextPath}/images/loading.gif" id="loadGIF">
-  	</div>
-  	<textarea readonly style="width:99%; height:99%; margin-left: 0.5%; margin-right: 0.5%;">
-  	
-	
-	<%
-  	//out.print("<loading.gif' />");
-  	//out.flush();
-  	//mock processing
-  	while(Results.heyActivo){
-		//out.print("<br/>Processing!");
-        //out.flush();
-        Thread.sleep(10);  
-  	}
-  	out.print(Results.salidaHey);
-  	out.flush();
-	%>
-	</textarea>
-	</div>
-	
-	<br>
-	<input style="float: right; margin-right: 5%;" type="submit" name="backBtn" value="Back" onclick="back_button()">
-	<input style="float: right; margin-right: 5%;" type="submit" name="backBtn" value="Save" onclick="save_txt_button()">
-    
-</div_right>
-<div_left id="div_left_down">
-	<p></p>
-	
-	<label>Deployment</label>
-	<!--
-	<button id="stop_deployment_button" value="Stop" onclick="func_stopDeployment()" style="float: right; margin-right: 1%;">Stop</button>
-	-->
-	<button name="clear_hpa" value="Clear" onclick="func_clearDeployment()" style="float: right; margin-right: 5%;">Clear</button>
-
-	<p></p>
-	<div id="chart_div" style="width: 100%; height: 75%"></div>
-</div_left>
-     
-</body>
 </html>

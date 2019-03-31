@@ -26,12 +26,12 @@ public class Results {
 		salidaHey = "";
 	}
 	
-	public Results(Peticion p) {
+	/*public Results(Peticion p) {
 		arrayHPA = new ArrayList<HpaK8S>();
 		arrayDeployment = new ArrayList<DeploymentK8S>();
 		salidaHey = "";
 		lanzarHilos(p);
-	}
+	}*/
 	
 	public void cargarArrayHPA(Peticion p) {
 		try {
@@ -174,9 +174,18 @@ public class Results {
 	public boolean runCommand(Peticion p) {
 
 		if (System.getProperty("os.name").startsWith("Windows")) {
-			// textPane_heyResult.setText("Windows");
 			salidaHey = "Windows";
-			System.out.println("salidaHey = Windows");
+			String str ="";
+			for(int i = 0; i < 250000; i++) {
+				str+=i;
+				if(i == 250000/2) System.out.println("mitad");
+			}
+			salidaHey = str.replace("1", "");
+			salidaHey = str.replace("3", "");
+			salidaHey = str.replace("5", "");
+			salidaHey = str.replace("7", "");
+			salidaHey = str.replace("9", "");
+			System.out.println("fin hilo");
 			heyActivo = false;
 			return false;
 		}
