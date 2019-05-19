@@ -45,12 +45,25 @@ textarea {
   overflow:auto;
 }
 table, th, td {
-  border: 1px solid black;
+  /*border: 1px solid black;*/
   
 }
-td{
-background-color: white;
+tr:nth-child(even) {
+  background-color: #eee;
 }
+tr:nth-child(odd) {
+ 	background-color: #fff;
+}
+th{
+	background-color: #39CCC2;
+}
+tr:hover{
+	
+	background-color: #5FEBEB;
+}
+/*td{
+background-color: white;
+}*/
 
 .loadGIF{
 	position: absolute;
@@ -65,6 +78,81 @@ background-color: white;
     margin-right: auto;
     margin-top: 20%;
 }
+
+label{
+	margin-left:1%;
+	font-weight: bold;
+	font-size:24px;
+}
+
+hr{
+	margin-top:10px;
+	width: 75%;
+}
+label{
+	/*color: #0098FF;*/
+	color: black;
+	font-family: 'Raleway',sans-serif;
+	font-size: 25px;
+	font-weight: 800;
+	
+	
+	text-align: center;
+	text-transform: uppercase;
+}
+
+/********/
+
+
+/***/
+
+.button {
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-size: 11px;
+  letter-spacing: 4px;
+  position: relative;
+  /*background-color: #16a085;*/
+  background-color: #0098FF;
+  border: none;
+  color: #fff;
+  padding: 10px;
+  width: 100px;
+  text-align: center;
+  transition-duration: 0.4s;
+  overflow: hidden;
+  box-shadow: 0 5px 15px #193047;
+  border-radius: 4px;
+}
+
+.button:hover {
+  background: #fff;
+  box-shadow: 0px 2px 10px 5px #1abc9c;
+  color: #000;
+}
+
+.button:after {
+  content: "";
+  background: #1abc9c;
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px !important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.8s
+}
+
+.button:active:after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s
+}
+
+.button:focus { outline:0; }
 </style>
 
 </head>
@@ -75,20 +163,30 @@ background-color: white;
 <div_left id="div_left_up">
 	<p></p>
 	
-	<label style="margin-left: 1%;">HPA</label> 
+	<div>
+		<label>HPA</label>
+		<button class="button" name="clear_hpa" value="Clear" onclick="func_clearHPA()" style="float: right; margin-right: 1%;">Clear</button>	
+	</div>
+
 	<!--
 	<button id="stop_hpa_button" value="Stop" onclick="func_stopHPA()" style="float: right; margin-right: 1%;">Stop</button>
 	-->
-	<button name="clear_hpa" value="Clear" onclick="func_clearHPA()" style="float: right; margin-right: 5%;">Clear</button>
-
+	
 	<p></p>
 	<div id="div_left_up_refresh"></div>
 </div_left>
 
 <div_right id="div_right">
-	<p> Resultados</p>
-	<h2>bb</h2>
-    <p>bb</p>
+	<p> </p>
+	<div style="text-align: center"><label> Resultados</label></div>
+	
+	<hr>
+    <p style="margin-right:2%; text-align: right;">
+    Obtenidos gracias a hey 
+    <a href="https://github.com/rakyll/hey">
+    <img src="${pageContext.request.contextPath}/images/GitHubIcon.png" style="width:32px;height:32px;">
+    </a>
+    </p>
     <div class="parent" style="width:99%; height:70%; margin-left: 0.5%; margin-right: 0.5%; position:relative">
   	<div class="loadGIF">
   		<img class="imageGIF" src="${pageContext.request.contextPath}/images/loading.gif" id="loadGIF">
@@ -112,18 +210,20 @@ background-color: white;
 	</div>
 	
 	<br>
-	<input style="float: right; margin-right: 5%;" type="submit" name="backBtn" value="Back" onclick="back_button()">
+	<input class="button" style="float: right; margin-right: 1%;" type="submit" name="backBtn" value="Back" onclick="back_button()">
+	<!--  
 	<input style="float: right; margin-right: 5%;" type="submit" name="backBtn" value="Save" onclick="save_txt_button()">
-    
+    -->
 </div_right>
 <div_left id="div_left_down">
 	<p></p>
 	
 	<label>Deployment</label>
+
 	<!--
 	<button id="stop_deployment_button" value="Stop" onclick="func_stopDeployment()" style="float: right; margin-right: 1%;">Stop</button>
 	-->
-	<button name="clear_hpa" value="Clear" onclick="func_clearDeployment()" style="float: right; margin-right: 5%;">Clear</button>
+	<button class="button" name="clear_hpa" value="Clear" onclick="func_clearDeployment()" style="float: right; margin-right: 1%;">Clear</button>
 
 	<p></p>
 	<div id="chart_div" style="width: 100%; height: 75%"></div>
