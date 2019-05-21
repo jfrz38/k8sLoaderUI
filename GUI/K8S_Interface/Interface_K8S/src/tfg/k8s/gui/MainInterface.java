@@ -41,7 +41,7 @@ public class MainInterface extends HttpServlet {
     }
     
     public MainInterface(int flag) {
-    	//Constructor vacío para acceder a los métodos
+    	//Constructor vacio para acceder a los metodos
     }
     
     private void initializeData() throws FileNotFoundException, IOException, ParseException {
