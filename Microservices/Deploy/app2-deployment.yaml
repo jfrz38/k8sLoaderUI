@@ -1,25 +1,19 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.16.0 (0c01309)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: app2
   name: app2
 spec:
-  replicas: 1
-  strategy: {}
+  selector:
+    matchLabels:
+      app: app2
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        io.kompose.service: app2
+        app: app2
     spec:
       containers:
-      - image: app2
-        name: app2-container
-        resources: {}
-      restartPolicy: Always
-status: {}
+      - name: app2-container
+        image: app2
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8081
