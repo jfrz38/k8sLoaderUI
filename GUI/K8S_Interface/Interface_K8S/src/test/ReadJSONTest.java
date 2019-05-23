@@ -12,6 +12,7 @@ import java.util.Arrays;
 import org.json.simple.parser.ParseException;
 import org.junit.Test;
 
+import tfg.k8s.gui.DeploymentK8S;
 import tfg.k8s.gui.NamespaceK8S;
 import tfg.k8s.gui.ReadJSON;
 
@@ -30,32 +31,17 @@ public class ReadJSONTest {
 		String salida = salidaScript(comando);
 		String[] str = salida.split(" ");
 		ArrayList<String> strAux = new ArrayList<String>(Arrays.asList(str));
-		strAux.remove(strAux.size()-1);	//Eliminar último caracter
+		if(strAux.size() > 0)strAux.remove(strAux.size()-1);	//Eliminar último caracter
 		
-        /*System.out.println("\n\n\n"
-        		+ "salida = "+ salida +" ; tamaño = "+str.length);
-        for(String s : str) {
-        	System.out.println("s = "+s);
-        }
-        if(str.length>0)str[str.length-1] = null;*/
+        
 		boolean test = true;
-		ArrayList<NamespaceK8S> a = rj.readNamespace();
+		ArrayList<NamespaceK8S> arr = rj.readNamespace();
 		ArrayList<String> names = new ArrayList<String>();
-		for(NamespaceK8S n : a) {
-			names.add(n.getName());
-			//System.out.println("n = "+n.getName());
-		}
-		System.out.println("\n\n\n"
-        		+ "names tamaño = "+names.size()+ " = "+names.toString());
-		if(a.size() != (strAux.size())) test = false;
-		System.out.println("test tras tamaño = "+test);
-		System.out.println("a.zise = "+a.size() + " ; strAux.size() =" + (strAux.size()));
-        for(String s : strAux){
-        	if(s == null) continue;
-        	if(s == " ") continue;
-        	if(s == "") continue;
+		for(NamespaceK8S n : arr) names.add(n.getName());
+		
+		if(arr.size() != (strAux.size())) test = false;
+		for(String s : strAux){
             if(!names.contains(s)) {
-            	System.out.println("names {"+names.toString()+" no contiene "+s);
             	test = false;
             	break;
             }
@@ -65,10 +51,30 @@ public class ReadJSONTest {
 	}
 
 	@Test
-	public void testReadDeployments() {
+	public void testReadDeployments() throws FileNotFoundException, IOException, ParseException {
 		//kubectl get namespace -o=jsonpath='{range .items[*]}{.metadata.name}{", "}'
 		//nombre de todos los namespaces separados por comas
-		assertEquals(true,true);
+		String comando = "kubectl get deployment -o=jsonpath='{range .items[*]}{.metadata.name}{\" \"}'";
+		String salida = salidaScript(comando);
+		String[] str = salida.split(" ");
+		ArrayList<String> strAux = new ArrayList<String>(Arrays.asList(str));
+		if(strAux.size() > 0)strAux.remove(strAux.size()-1);	//Eliminar último caracter
+		
+        
+		boolean test = true;
+		ArrayList<DeploymentK8S> arr = rj.readDeployments("default");
+		ArrayList<String> names = new ArrayList<String>();
+		for(DeploymentK8S n : arr) names.add(n.getName());
+		
+		if(arr.size() != (strAux.size())) test = false;
+		for(String s : strAux){
+            if(!names.contains(s)) {
+            	test = false;
+            	break;
+            }
+        }
+		
+		assertEquals(test,true);
 	}
 
 	@Test
