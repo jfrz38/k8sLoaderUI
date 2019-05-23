@@ -534,7 +534,13 @@ label{
 
 		var newDataArray = cabecera.concat(eval("[" + entryData + "]"));
 		var data = google.visualization.arrayToDataTable(newDataArray);
-
+		var dateFormatter = new google.visualization.DateFormat({pattern: 'HH:mm:ss'});
+		dateFormatter.format(data, 0);
+		//console.log(dateFormatter)
+		
+		
+		//alert("newDataArray = "+newDataArray);
+		//alert("newDataArray[1] = "+newDataArray[1]);
 		var maxValueV;
 		//alert("entyData = "+entryData);
 		//alert("entyData[0] = "+eval(entryData)[1]);
@@ -545,30 +551,20 @@ label{
 		}
 		//alert("maxValueV = "+maxValueV);
 		
-		var options = {
+		/*var options = {
 			//title: 'Deployment',
 			hAxis : {
 				//ticks: [{v:0, f:"0:00.0"}, {v:30, f:"0:30.0"}, {v:60, f:"1:00:0"}],
 				//format:'##:##s',
-				format: 'HH:mm',
+				format: 'hh:mm:ss',
 				title : 'Time (s)',
 				titleTextStyle : {
 					color : '#333'
 				},
 				minValue : 0,
-				/*scales:{
-		            xAxes: [{
-		                display: false //this will remove all the x-axis grid lines
-		            }]
-		        }*/
-				//minValue: eval("[" + entryData + "]")[0]
 			},
 			vAxis : {
 				title : 'Replicas',
-				/*range: {
-                    max: maxValueV,
-                    min: 0
-                },*/
 				minValue : 0,
 				viewWindow: {
 			        max: maxValueV
@@ -577,24 +573,43 @@ label{
 				//minValue: eval("[" + entryData + "]")[0]
 			},
 			backgroundColor : 'transparent'
-		};
+		};*/
 
 		
-		/*
-		var formatNumber = new google.visualization.NumberFormat(
-		        {prefix: '', negativeColor: 'red', negativeParens: true});
-
-		     var formatDate = new google.visualization.DateFormat(
-		        { prefix: 'Time: ', pattern: "dd MMM HH:mm", });
-
-		     formatDate.format(data, 0);
-		     formatNumber.format(data, 1);
-		     
-		     
-		     */
-		//var chart = new google.visualization.AreaChart(document
-				//.getElementById('chart_div'));
-		//chart.draw(data, options);
+		
+		
+		
+		var options = {
+				
+				/*
+				// If the format option matches, change it to the new option,
+		          // if not, reset it to the original format.
+		          options.hAxis.format === 'M/d/yy' ?
+		          options.hAxis.format = 'MMM dd, yyyy' :
+		          options.hAxis.format = 'M/d/yy';
+				*/
+        hAxis: {title: 'Time', format:'##s', minValue : 0},
+        //vAxis: {title: 'Time', format:'0.0E00'},
+        vAxis : {
+			title : 'Replicas',
+			/*range: {
+                max: maxValueV,
+                min: 0
+            },*/
+			minValue : 0,
+			viewWindow: {
+		        max: maxValueV
+			},
+			//maxValue: maxValueV
+			//minValue: eval("[" + entryData + "]")[0]
+		},
+		backgroundColor : 'transparent'
+    	};
+    	//var formatter1 = new google.visualization.NumberFormat({pattern:'##:##:##'});
+    	//formatter1.format(data, 0);
+		
+		
+		
 		var chart = new google.charts.Bar(document.getElementById('chart_div'));
 		chart.draw(data, google.charts.Bar.convertOptions(options));
 	}

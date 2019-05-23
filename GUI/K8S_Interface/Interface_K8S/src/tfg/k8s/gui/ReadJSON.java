@@ -20,12 +20,6 @@ public class ReadJSON {
 	public ReadJSON() {
 		if(System.getProperty("os.name").startsWith("Windows")) OS = true;
 		else OS = false;
-		/*if(new File("C:\\Users\\josef\\Desktop\\namespaces.json").exists()){
-			//Windows
-			OS = true;
-		}else {
-			OS = false;
-		}*/
 	}
 
 	public ArrayList<NamespaceK8S> readNamespace() throws FileNotFoundException, IOException, ParseException {
