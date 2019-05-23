@@ -34,6 +34,7 @@ public class ReadJSONTest {
 			System.out.println("s1 = "+s);
 			if(s == "") System.out.println("s = '' ");
 			if(s == " ") System.out.println("s = ' ' ");
+			if(s.contains(" ")) System.out.println(" s contains ' '");
 		}
         System.out.println("\n\n\n"
         		+ "salida = "+ salida +" ; tamaño = "+str.length);
