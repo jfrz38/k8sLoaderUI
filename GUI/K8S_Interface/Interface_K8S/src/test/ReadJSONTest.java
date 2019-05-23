@@ -25,13 +25,14 @@ public class ReadJSONTest {
 		//kubectl get namespace -o=jsonpath='{range .items[*]}{.metadata.name}{", "}'
 		//nombre de todos los namespaces separados por comas
 		
-		String comando = "kubectl get namespace -o=jsonpath='{range .items[*]}{.metadata.name}{\" \"}'";
+		String comando = "kubectl get namespace -o=jsonpath='{range .items[*]}{.metadata.name}{\" \"}{end}'";
 		String salida = salidaScript(comando);
-		salida = eliminarEspacioFinal(salida);		 
 		String[] str = salida.split(" ");
         System.out.println("\n\n\n"
         		+ "salida = "+ salida +" ; tamaño = "+str.length);
-        
+        for(String s : str) {
+        	System.out.println("s = "+s);
+        }
 		boolean test = true;
 		ArrayList<NamespaceK8S> a = rj.readNamespace();
 		ArrayList<String> names = new ArrayList<String>();
@@ -50,13 +51,6 @@ public class ReadJSONTest {
         }
 		
 		assertEquals(test,true);
-	}
-
-	private String eliminarEspacioFinal(String salida) {
-		if (salida != null && salida.length() > 0 && salida.charAt(salida.length() - 1) == ' ') {
-			salida = salida.substring(0, salida.length() - 1);
-		}
-		return salida;
 	}
 
 	@Test
