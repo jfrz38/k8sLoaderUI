@@ -27,6 +27,7 @@ public class ReadJSONTest {
 		
 		String comando = "kubectl get namespace -o=jsonpath='{range .items[*]}{.metadata.name}{\" \"}'";
 		String salida = salidaScript(comando);
+		salida = eliminarEspacioFinal(salida);		 
 		String[] str = salida.split(" ");
         System.out.println("\n\n\n"
         		+ "salida = "+ salida +" ; tamaño = "+str.length);
@@ -49,6 +50,13 @@ public class ReadJSONTest {
         }
 		
 		assertEquals(test,true);
+	}
+
+	private String eliminarEspacioFinal(String salida) {
+		if (salida != null && salida.length() > 0 && salida.charAt(salida.length() - 1) == ' ') {
+			salida = salida.substring(0, salida.length() - 1);
+		}
+		return salida;
 	}
 
 	@Test
