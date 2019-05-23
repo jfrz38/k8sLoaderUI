@@ -25,7 +25,7 @@ public class ReadJSONTest {
 		//kubectl get namespace -o=jsonpath='{range .items[*]}{.metadata.name}{", "}'
 		//nombre de todos los namespaces separados por comas
 		
-		String comando = "kubectl get namespace -o=jsonpath='{range .items[*]}{.metadata.name}{' '}{end}'";
+		String comando = "kubectl get namespace -o=jsonpath='{range .items[*]}{.metadata.name}{\" \"}'";
 		String salida = salidaScript(comando);
 		String[] str = salida.split(" ");
         System.out.println("\n\n\n"
