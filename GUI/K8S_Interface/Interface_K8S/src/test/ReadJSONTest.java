@@ -13,8 +13,10 @@ import org.json.simple.parser.ParseException;
 import org.junit.Test;
 
 import tfg.k8s.gui.DeploymentK8S;
+import tfg.k8s.gui.HpaK8S;
 import tfg.k8s.gui.NamespaceK8S;
 import tfg.k8s.gui.ReadJSON;
+import tfg.k8s.gui.ServiceK8S;
 
 public class ReadJSONTest {
 
@@ -78,18 +80,58 @@ public class ReadJSONTest {
 	}
 
 	@Test
-	public void testReadHPA() {
+	public void testReadHPA() throws FileNotFoundException, IOException, ParseException {
 		
 		//kubectl get hpa -o=jsonpath='{range .items[*]}{.metadata.name}{", "}'
 		//nombre de todos los namespaces separados por comas
-		assertEquals(true,true);
+		String comando = "kubectl get hpa -o=jsonpath='{range .items[*]}{.metadata.name}{\" \"}'";
+		String salida = salidaScript(comando);
+		String[] str = salida.split(" ");
+		ArrayList<String> strAux = new ArrayList<String>(Arrays.asList(str));
+		if(strAux.size() > 0)strAux.remove(strAux.size()-1);	//Eliminar último caracter
+		
+        
+		boolean test = true;
+		ArrayList<HpaK8S> arr = rj.readHPA("default");
+		ArrayList<String> names = new ArrayList<String>();
+		for(HpaK8S n : arr) names.add(n.getName());
+		
+		if(arr.size() != (strAux.size())) test = false;
+		for(String s : strAux){
+            if(!names.contains(s)) {
+            	test = false;
+            	break;
+            }
+        }
+		
+		assertEquals(test,true);
 	}
 
 	@Test
-	public void testReadServices() {
+	public void testReadServices() throws FileNotFoundException, IOException, ParseException {
 		//kubectl get service -o=jsonpath='{range .items[*]}{.metadata.name}{", "}'
 		//nombre de todos los namespaces separados por comas
-		assertEquals(true,true);
+		String comando = "kubectl get service -o=jsonpath='{range .items[*]}{.metadata.name}{\" \"}'";
+		String salida = salidaScript(comando);
+		String[] str = salida.split(" ");
+		ArrayList<String> strAux = new ArrayList<String>(Arrays.asList(str));
+		if(strAux.size() > 0)strAux.remove(strAux.size()-1);	//Eliminar último caracter
+		
+        
+		boolean test = true;
+		ArrayList<ServiceK8S> arr = rj.readServices("default");
+		ArrayList<String> names = new ArrayList<String>();
+		for(ServiceK8S n : arr) names.add(n.getName());
+		
+		if(arr.size() != (strAux.size())) test = false;
+		for(String s : strAux){
+            if(!names.contains(s)) {
+            	test = false;
+            	break;
+            }
+        }
+		
+		assertEquals(test,true);
 	}
 
 	@Test
