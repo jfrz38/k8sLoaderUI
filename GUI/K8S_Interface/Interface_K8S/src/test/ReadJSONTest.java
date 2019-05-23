@@ -29,33 +29,28 @@ public class ReadJSONTest {
 		String comando = "kubectl get namespace -o=jsonpath='{range .items[*]}{.metadata.name}{\" \"}'";
 		String salida = salidaScript(comando);
 		String[] str = salida.split(" ");
-		ArrayList<String> stringAux = new ArrayList<String>(Arrays.asList(str));
-		stringAux.remove(stringAux.size()-1);
-		for(String s : stringAux) {
-			System.out.println("s1 = "+s);
-			if(s == "") System.out.println("s = '' ");
-			if(s == " ") System.out.println("s = ' ' ");
-			if(s.contains(" ")) System.out.println(" s contains ' '");
-		}
-        System.out.println("\n\n\n"
+		ArrayList<String> strAux = new ArrayList<String>(Arrays.asList(str));
+		strAux.remove(strAux.size()-1);	//Eliminar último caracter
+		
+        /*System.out.println("\n\n\n"
         		+ "salida = "+ salida +" ; tamaño = "+str.length);
         for(String s : str) {
         	System.out.println("s = "+s);
         }
-        if(str.length>0)str[str.length-1] = null;
+        if(str.length>0)str[str.length-1] = null;*/
 		boolean test = true;
 		ArrayList<NamespaceK8S> a = rj.readNamespace();
 		ArrayList<String> names = new ArrayList<String>();
 		for(NamespaceK8S n : a) {
 			names.add(n.getName());
-			System.out.println("n = "+n.getName());
+			//System.out.println("n = "+n.getName());
 		}
 		System.out.println("\n\n\n"
         		+ "names tamaño = "+names.size()+ " = "+names.toString());
-		if(a.size() != (str.length)) test = false;
+		if(a.size() != (strAux.size())) test = false;
 		System.out.println("test tras tamaño = "+test);
-		System.out.println("a.zise = "+a.size() + " ; str.length-1 =" + (str.length-1));
-        for(String s : str){
+		System.out.println("a.zise = "+a.size() + " ; strAux.size() =" + (strAux.size()));
+        for(String s : strAux){
         	if(s == null) continue;
         	if(s == " ") continue;
         	if(s == "") continue;
