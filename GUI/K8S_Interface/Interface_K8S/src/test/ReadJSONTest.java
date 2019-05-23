@@ -28,13 +28,18 @@ public class ReadJSONTest {
 		String comando = "kubectl get namespace -o=jsonpath='{range .items[*]}{.metadata.name}{\" \"}'";
 		String salida = salidaScript(comando);
 		String[] str = salida.split(" ");
+        System.out.println("\n\n\n"
+        		+ "salida = "+ salida +" ; tamaño = "+str.length);
         
 		boolean test = true;
 		ArrayList<NamespaceK8S> a = rj.readNamespace();
 		ArrayList<String> names = new ArrayList<String>();
 		for(NamespaceK8S n : a) {
 			names.add(n.getName());
+			System.out.println("n = "+n.getName());
 		}
+		System.out.println("\n\n\n"
+        		+ "names tamaño = "+names.size()+ " = "+names.toString());
 		if(a.size() != str.length) test = false;
         for(String s : str){
             if(!names.contains(s)) {
