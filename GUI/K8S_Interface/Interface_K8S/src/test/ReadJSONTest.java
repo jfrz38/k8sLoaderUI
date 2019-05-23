@@ -46,6 +46,7 @@ public class ReadJSONTest {
 		System.out.println("test tras tamaño = "+test);
 		System.out.println("a.zise = "+a.size() + " ; str.length-1 =" + (str.length-1));
         for(String s : str){
+        	if(s == " ") continue;
             if(!names.contains(s)) {
             	System.out.println("names {"+names.toString()+" no contiene "+s);
             	test = false;
