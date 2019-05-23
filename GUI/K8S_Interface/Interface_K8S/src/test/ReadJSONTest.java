@@ -30,6 +30,7 @@ public class ReadJSONTest {
 		String salida = salidaScript(comando);
 		String[] str = salida.split(" ");
 		ArrayList<String> stringAux = new ArrayList<String>(Arrays.asList(str));
+		stringAux.remove(stringAux.size()-1);
 		for(String s : stringAux) {
 			System.out.println("s1 = "+s);
 			if(s == "") System.out.println("s = '' ");
