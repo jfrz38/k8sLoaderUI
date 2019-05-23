@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.json.simple.parser.ParseException;
 import org.junit.Test;
@@ -28,6 +29,12 @@ public class ReadJSONTest {
 		String comando = "kubectl get namespace -o=jsonpath='{range .items[*]}{.metadata.name}{\" \"}'";
 		String salida = salidaScript(comando);
 		String[] str = salida.split(" ");
+		ArrayList<String> stringAux = new ArrayList<String>(Arrays.asList(str));
+		for(String s : stringAux) {
+			System.out.println("s1 = "+s);
+			if(s == "") System.out.println("s = '' ");
+			if(s == " ") System.out.println("s = ' ' ");
+		}
         System.out.println("\n\n\n"
         		+ "salida = "+ salida +" ; tamaño = "+str.length);
         for(String s : str) {
