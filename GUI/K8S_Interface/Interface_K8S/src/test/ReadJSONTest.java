@@ -33,6 +33,7 @@ public class ReadJSONTest {
         for(String s : str) {
         	System.out.println("s = "+s);
         }
+        if(str.length>0)str[str.length-1] = null;
 		boolean test = true;
 		ArrayList<NamespaceK8S> a = rj.readNamespace();
 		ArrayList<String> names = new ArrayList<String>();
@@ -42,7 +43,7 @@ public class ReadJSONTest {
 		}
 		System.out.println("\n\n\n"
         		+ "names tamaño = "+names.size()+ " = "+names.toString());
-		if(a.size() != (str.length-1)) test = false;
+		if(a.size() != (str.length)) test = false;
 		System.out.println("test tras tamaño = "+test);
 		System.out.println("a.zise = "+a.size() + " ; str.length-1 =" + (str.length-1));
         for(String s : str){
