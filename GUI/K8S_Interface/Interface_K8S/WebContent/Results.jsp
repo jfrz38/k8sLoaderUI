@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="tfg.k8s.gui.*"%>
 <%@ page import="java.util.concurrent.TimeUnit"%>
@@ -16,7 +16,7 @@
 
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
 <style>
 html, body { height: 100%; /*padding: 0; margin: 0;*/ }
 div_left { width: 50%; height: 50%; float: left; margin}
@@ -210,7 +210,7 @@ label{
 	</div>
 	
 	<br>
-	<input class="button" style="float: right; margin-right: 1%;" type="submit" name="backBtn" value="Atrás" onclick="back_button()">
+	<input class="button" style="float: right; margin-right: 1%;" type="submit" name="backBtn" value="Atr&aacute;s" onclick="back_button()">
 	<!--  
 	<input style="float: right; margin-right: 5%;" type="submit" name="backBtn" value="Save" onclick="save_txt_button()">
     -->
