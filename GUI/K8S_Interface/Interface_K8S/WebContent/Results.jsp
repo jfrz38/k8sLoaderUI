@@ -165,7 +165,7 @@ label{
 	
 	<div>
 		<label>HPA</label>
-		<button class="button" name="clear_hpa" value="Clear" onclick="func_clearHPA()" style="float: right; margin-right: 1%;">Clear</button>	
+		<button class="button" name="clear_hpa" value="Clear" onclick="func_clearHPA()" style="float: right; margin-right: 1%;">Borrar</button>	
 	</div>
 
 	<!--
@@ -210,7 +210,7 @@ label{
 	</div>
 	
 	<br>
-	<input class="button" style="float: right; margin-right: 1%;" type="submit" name="backBtn" value="Back" onclick="back_button()">
+	<input class="button" style="float: right; margin-right: 1%;" type="submit" name="backBtn" value="Atrás" onclick="back_button()">
 	<!--  
 	<input style="float: right; margin-right: 5%;" type="submit" name="backBtn" value="Save" onclick="save_txt_button()">
     -->
@@ -218,12 +218,12 @@ label{
 <div_left id="div_left_down">
 	<p></p>
 	
-	<label>Deployment</label>
+	<label>Despliegue</label>
 
 	<!--
 	<button id="stop_deployment_button" value="Stop" onclick="func_stopDeployment()" style="float: right; margin-right: 1%;">Stop</button>
 	-->
-	<button class="button" name="clear_hpa" value="Clear" onclick="func_clearDeployment()" style="float: right; margin-right: 1%;">Clear</button>
+	<button class="button" name="clear_hpa" value="Clear" onclick="func_clearDeployment()" style="float: right; margin-right: 1%;">Borrar</button>
 
 	<p></p>
 	<div id="chart_div" style="width: 100%; height: 75%"></div>
@@ -305,7 +305,7 @@ label{
 			
 			function getClearHPA() {	
 				if (requestClearHPA.readyState == 4) {
-					var tableHPA = '<table style="width:99%; margin-left: 0.5%; margin-right: 0.5%;"><tr><th>Nombre</th><th>Reference</th><th>Targets</th><th>minPods</th><th>maxPods</th><th>replicas</th><th>age</th></table>'
+					var tableHPA = '<table style="width:99%; margin-left: 0.5%; margin-right: 0.5%;"><tr><th>Nombre</th><th>Referencia</th><th>Objetivos</th><th>minPods</th><th>maxPods</th><th>Réplicas</th><th>Tiempo</th></table>'
 					document.getElementById('div_left_up_refresh').innerHTML = tableHPA;
 				}
 			}
@@ -529,8 +529,8 @@ label{
 
 	function drawChart(entryData) {
 
-		var cabecera = [ [ 'Time', 'Desired', 'Current', 'Up-to-date',
-				'Available' ] ];
+		var cabecera = [ [ 'Tiempo', 'Deseado', 'Actual', 'Por actualizar',
+				'Disponible' ] ];
 
 		var newDataArray = cabecera.concat(eval("[" + entryData + "]"));
 		var data = google.visualization.arrayToDataTable(newDataArray);

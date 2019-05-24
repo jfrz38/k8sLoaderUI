@@ -390,7 +390,7 @@ select::-ms-expand {
 	</form>
     <hr>
     <div>
-    <input class="button" type="submit" name="sendBtn" value="Send" form="results_form">
+    <input class="button" type="submit" name="sendBtn" value="Enviar" form="results_form">
      
     </div>
 	</div>
