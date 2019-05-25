@@ -13,5 +13,5 @@ spec:
   metrics:
   - type: Pods
     pods:
-      metricName: http_requests
+      metricName: fs_io_current
       targetAverageValue: 10
