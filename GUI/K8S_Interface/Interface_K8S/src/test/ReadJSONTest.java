@@ -54,8 +54,7 @@ public class ReadJSONTest {
 
 	@Test
 	public void testReadDeployments() throws FileNotFoundException, IOException, ParseException {
-		//kubectl get namespace -o=jsonpath='{range .items[*]}{.metadata.name}{", "}'
-		//nombre de todos los namespaces separados por comas
+		
 		String comando = "kubectl get deployment -o=jsonpath='{range .items[*]}{.metadata.name}{\" \"}'";
 		String salida = salidaScript(comando);
 		String[] str = salida.split(" ");
@@ -134,7 +133,7 @@ public class ReadJSONTest {
 		assertEquals(test,true);
 	}
 
-	@Test
+	//@Test
 	public void testGetDeployment() {
 		
 		// Posiciones:
@@ -143,21 +142,21 @@ public class ReadJSONTest {
 				// 2 = current = status.replicas
 				// 3 = up-to-date = status.updatedReplicas 
 				// 4 = available = status.availableReplicas 
-				// 5 = age
-		assertEquals(true,true);
+				// 5 = age -> no comprobar
+		//assertEquals(true,true);
 	}
 
-	@Test
+	//@Test
 	public void testGetHPA() {
 		// Posiciones:
 				// 0 = nombre
 				// 1 = reference
-				// 2 = targets
+				// 2 = targets -> no comprobar
 				// 3 = minpods
 				// 4 = maxpods
 				// 5 = replicas
-				// 6 = age
-		assertEquals(true,true);
+				// 6 = age -> no comprobar
+		//assertEquals(true,true);
 	}
 	
 

@@ -23,7 +23,6 @@ body {
 * {
   box-sizing: border-box;
 }
-
 .split {
   height: 100%;
   width: 50%;
@@ -33,18 +32,15 @@ body {
   overflow-x: hidden;
   padding-top: 20px;
 }
-
 .left {
   left: 0;
   background-color: #DFFFFD;
 }
-
 .right {
   right: 0;
   background-color: #DFFFFD;
 }
 .right:hover,.left:hover{background-color:#B6EEEA;}
-
 /*.centered {
   position: absolute;
   margin-top:5%;
@@ -52,9 +48,7 @@ body {
   transform: translate(-50%, -50%);
   text-align: center;
 }*/
-
 .center_div{
-
 	margin-top:5%;
 	text-align: center;
 	
@@ -63,21 +57,17 @@ body {
 	margin-left:15%;
 	display:block;
 }*/
-
 input,select{
 	margin-top:25px;
 }
-
 /*.center_left_div{
 	margin-left:15%;
 	display:block;
 }*/
-
 .button_dcha{
 	float:right;
 	margin-right:40px;
 }
-
 hr{
 	margin-top:25px;
 	width: 75%;
@@ -87,11 +77,7 @@ hr{
 	display:inline-block;
 }
 /*.select{
-
 }*/
-
-
-
 .inp {
   position: relative;
   margin: auto;
@@ -125,7 +111,6 @@ hr{
   transform-origin: 0 0;
   transition: all 0.15s ease;
 }*/
-
 .inp input {
   -webkit-appearance: none;
   width: 50%;
@@ -160,14 +145,9 @@ hr{
   transform: scaleX(1);
 }
 ​
-
 /***/
-
 /***/
-
 /**/
-
-
 .select-container {
     position: relative;
     
@@ -210,8 +190,6 @@ select::-ms-expand {
     display: none;
 }
    
-
-
 /***/
 .lbl_title{
 	/*color: #0098FF;*/
@@ -225,8 +203,6 @@ select::-ms-expand {
 	text-transform: uppercase;
 }
 /****/
-
-
 .button {
   text-align: center;
   text-transform: uppercase;
@@ -246,13 +222,11 @@ select::-ms-expand {
   box-shadow: 0 5px 15px #193047;
   border-radius: 4px;
 }
-
 .button:hover {
   background: #fff;
   box-shadow: 0px 2px 10px 5px #1abc9c;
   color: #000;
 }
-
 .button:after {
   content: "";
   background: #1abc9c;
@@ -265,21 +239,16 @@ select::-ms-expand {
   opacity: 0;
   transition: all 0.8s
 }
-
 .button:active:after {
   padding: 0;
   margin: 0;
   opacity: 1;
   transition: 0s
 }
-
 .button:focus { outline:0; }
-
-
 /******/
 /**/
 /**/
-
 .custom_label { 
 	color: #333; 
 	font-family: 'Raleway',sans-serif; 
@@ -288,7 +257,6 @@ select::-ms-expand {
 	line-height: 32px;
 	
 }
-
 </style>
 </head>
 
@@ -309,9 +277,6 @@ select::-ms-expand {
     <hr>
     <form action="Results" id="results_form">
     
-   	<!--  https://codepen.io/andreasstorm/pen/gKGbxo -->
-	
-	
 	<label class="inp">
   	<input type="number" min="1" name="peticionesTotales" value="" placeholder="&nbsp;">
   	<span class="label">Peticiones totales</span>
@@ -339,23 +304,6 @@ select::-ms-expand {
 	<div class="custom_label">URL (servicio)</div>
     <select name="servicio" id="comboBoxService"></select>
     
-    <!--
-    <div>Peticiones totales</div>
-    <input type="number" min="1" name="peticionesTotales" value="">
-    
-    <hr>
-    <div>Peticiones concurrentes</div>
-    <input type="number" min="1" name="peticionesConcurrentes" value="">
-    <hr>
-    <div>Peticiones por segundo máximo (0 = sin límite)</div>
-    <input type="number" min="1" name="peticionesPorSegundo" value="">
-    <hr>
-    <div>URL (servicio)</div>
-    <select name="servicio" id="comboBoxService">
-    
-	</select>
-	
-	-->
   </div>
   
 </div>
@@ -367,7 +315,6 @@ select::-ms-expand {
     <hr>
 
     <div class="custom_label">Namespace</div>
-     <!--  onchange="location.reload()"-->
      <div class="select-container">
     
     <select name="namespace" id="comboBoxNamespace" onChange="refreshComboBox()">
@@ -396,15 +343,11 @@ select::-ms-expand {
 	</div>
 </div>
      <script>
-     	/*window.onload = function() {
-			var e = document.getElementById("comboBoxNamespace");
-			var text = e.options[e.selectedIndex].text;
-		}*/
+     	
      
   			/**REFRESH COMBO BOX DEPLOYMENT**/
   			function refreshComboBoxDeployment(){
   				var e = document.getElementById("comboBoxNamespace");
-  		  		//var value = e.options[e.selectedIndex].value;
   				var text;
   				if(e.options[e.selectedIndex].text !== undefined){
   					text = e.options[e.selectedIndex].text;
@@ -429,7 +372,6 @@ select::-ms-expand {
   			function getInfoRefreshComboBox() {	
   				if (requestRefreshComboBox.readyState == 4) {
   					var ret = requestRefreshComboBox.responseText;
-  					//document.getElementById('comboBoxDeployment').innerHTML = eval(ret)[0];
   					document.getElementById('comboBoxDeployment').innerHTML = ret;
   					
   				}
@@ -463,7 +405,6 @@ select::-ms-expand {
   			function getInfoRefreshComboBoxHPA() {	
   				if (requestRefreshComboBoxHPA.readyState == 4) {
   					var ret = requestRefreshComboBoxHPA.responseText;
-  					//document.getElementById('comboBoxDeployment').innerHTML = eval(ret)[0];
   					document.getElementById('comboBoxHPA').innerHTML = ret;
   					
   				}
@@ -472,8 +413,7 @@ select::-ms-expand {
   			/**REFRESH COMBO BOX SERVICE**/
   			function refreshComboBoxService(){
   				var e = document.getElementById("comboBoxNamespace");
-  		  		//var value = e.options[e.selectedIndex].value;
-  				var text;
+  		  		var text;
   				if(e.options[e.selectedIndex].text !== undefined){
   					text = e.options[e.selectedIndex].text;
   				}else{
@@ -497,7 +437,6 @@ select::-ms-expand {
   			function getInfoRefreshComboBoxService() {	
   				if (requestRefreshComboBox.readyState == 4) {
   					var ret = requestRefreshComboBox.responseText;
-  					//document.getElementById('comboBoxDeployment').innerHTML = eval(ret)[0];
   					document.getElementById('comboBoxService').innerHTML = ret;
   					
   				}

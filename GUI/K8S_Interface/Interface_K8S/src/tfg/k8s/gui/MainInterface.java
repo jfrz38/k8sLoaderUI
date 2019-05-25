@@ -100,8 +100,8 @@ public class MainInterface extends HttpServlet {
 	}
 	
 	public boolean checkCluster() {
-		return true;
-		//return rj.checkCluster();
+		//return true;
+		return rj.checkCluster();
 		
 	}
 

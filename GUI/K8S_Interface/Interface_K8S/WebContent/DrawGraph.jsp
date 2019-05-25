@@ -12,12 +12,6 @@
 			}else{
 				str+="["+d.getAge()+", "+d.getDesired()+", "+d.getCurrent()+", "+d.getUptodate()+", "+d.getAvailable()+"], ";
 			}
-			//Prueba
-			/*if(i==Results.arrayDeployment.size()-1){
-				str+="["+d.getAge()+", "+(int) (Math.random()* 10)+", "+(int) (Math.random()* 10)+", "+(int) (Math.random()* 10)+", "+(int) (Math.random()* 10)+"]";
-			}else{
-				str+="["+d.getAge()+", "+(int) (Math.random()* 10)+", "+(int) (Math.random()* 10)+", "+(int) (Math.random()* 10)+", "+(int) (Math.random()* 10)+"], ";
-			}*/
 		}
 	}
 	

@@ -7,10 +7,7 @@
 
 <%
 	Peticion p = (Peticion) request.getAttribute("peticion");
-	//Results r = new Results(p);
-	Results r = new Results();
-	//r.lanzarHilos(p);
-	//session.setAttribute("PeticionSesion", p);
+	Results r = new Results();;
 	
 %>
 
@@ -64,7 +61,6 @@ tr:hover{
 /*td{
 background-color: white;
 }*/
-
 .loadGIF{
 	position: absolute;
 	width:99%;
@@ -78,13 +74,11 @@ background-color: white;
     margin-right: auto;
     margin-top: 20%;
 }
-
 label{
 	margin-left:1%;
 	font-weight: bold;
 	font-size:24px;
 }
-
 hr{
 	margin-top:10px;
 	width: 75%;
@@ -100,12 +94,8 @@ label{
 	text-align: center;
 	text-transform: uppercase;
 }
-
 /********/
-
-
 /***/
-
 .button {
   text-align: center;
   text-transform: uppercase;
@@ -125,13 +115,11 @@ label{
   box-shadow: 0 5px 15px #193047;
   border-radius: 4px;
 }
-
 .button:hover {
   background: #fff;
   box-shadow: 0px 2px 10px 5px #1abc9c;
   color: #000;
 }
-
 .button:after {
   content: "";
   background: #1abc9c;
@@ -144,14 +132,12 @@ label{
   opacity: 0;
   transition: all 0.8s
 }
-
 .button:active:after {
   padding: 0;
   margin: 0;
   opacity: 1;
   transition: 0s
 }
-
 .button:focus { outline:0; }
 </style>
 
@@ -168,10 +154,6 @@ label{
 		<button class="button" name="clear_hpa" value="Clear" onclick="func_clearHPA()" style="float: right; margin-right: 1%;">Borrar</button>	
 	</div>
 
-	<!--
-	<button id="stop_hpa_button" value="Stop" onclick="func_stopHPA()" style="float: right; margin-right: 1%;">Stop</button>
-	-->
-	
 	<p></p>
 	<div id="div_left_up_refresh"></div>
 </div_left>
@@ -193,36 +175,18 @@ label{
   	</div>
   	<textarea readonly style="width:99%; height:99%; margin-left: 0.5%; margin-right: 0.5%;" id="textAreaHey">
   	
-	
-	<%
-  	//out.print("<loading.gif' />");
-  	//out.flush();
-  	//mock processing
-  	/*while(Results.heyActivo){
-		//out.print("<br/>Processing!");
-        //out.flush();
-        Thread.sleep(10);  
-  	}
-  	out.print(Results.salidaHey);
-  	out.flush();*/
-	%>
 	</textarea>
 	</div>
 	
 	<br>
 	<input class="button" style="float: right; margin-right: 1%;" type="submit" name="backBtn" value="Atr&aacute;s" onclick="back_button()">
-	<!--  
-	<input style="float: right; margin-right: 5%;" type="submit" name="backBtn" value="Save" onclick="save_txt_button()">
-    -->
+
 </div_right>
 <div_left id="div_left_down">
 	<p></p>
 	
 	<label>Despliegue</label>
 
-	<!--
-	<button id="stop_deployment_button" value="Stop" onclick="func_stopDeployment()" style="float: right; margin-right: 1%;">Stop</button>
-	-->
 	<button class="button" name="clear_hpa" value="Clear" onclick="func_clearDeployment()" style="float: right; margin-right: 1%;">Borrar</button>
 
 	<p></p>
@@ -316,14 +280,6 @@ label{
 		
 		function func_stopHPA() {
 			var elem = document.getElementById('stop_hpa_button');
-			/*var txt = elem.textContent || elem.innerText;
-			
-			if(txt=="Stop"){
-				var urlStopHPA = "DoActionButton.jsp?accion=stopHPA";
-			}else{
-				var urlStopHPA = "DoActionButton.jsp?accion=startHPA";
-			}*/
-			
 			var urlStopHPA = "DoActionButton.jsp?accion=stopHPA";
 			
 			if (window.XMLHttpRequest) {
@@ -342,13 +298,7 @@ label{
 			
 			function getStopHPA() {	
 				if (requestStopHPA.readyState == 4) {
-					//document.getElementById("stop_hpa_button").disabled = true;
 					
-					/*if(txt=="Stop"){
-						document.getElementById("stop_hpa_button").innerHTML = "Start";
-					}else{
-						document.getElementById("stop_hpa_button").innerHTML = "Stop";
-					}*/
 				}
 			}
 
@@ -375,9 +325,9 @@ label{
 			
 			function getClearDeployment() {	
 				if (requestClearDeployment.readyState == 4) {
-					var tableDeployment = '<table style="width:99%; margin-left: 0.5%; margin-right: 0.5%;"><tr><th id="probando">Nombre</th><th>Desired</th><th>Current</th><th>up-to-date</th><th>available</th><th>Age</th></table>'
+					var tableDeployment = '<table style="width:99%; margin-left: 0.5%; margin-right: 0.5%;"><tr><th id="deployment_table">Nombre</th><th>Deseado</th><th>Actual</th><th>Por actualizar</th><th>Disponible</th><th>Tiempo</th></table>'
 					document.getElementById('div_left_down_refresh').innerHTML = tableDeployment;
-					//drawChart("[0, 0, 0, 0, 0]");
+					
 				}
 			}
 
@@ -387,12 +337,7 @@ label{
 		
 		function func_stopDeployment() {
 			var elem = document.getElementById('stop_deployment_button');
-			/*var txt = elem.textContent || elem.innerText;
-			if(txt=="Stop"){
-				var urlStopDeployment = "DoActionButton.jsp?accion=stopDeployment";
-			}else{
-				var urlStopDeployment = "DoActionButton.jsp?accion=startDeployment";
-			}*/
+			
 			
 			var urlStopDeployment = "DoActionButton.jsp?accion=stopDeployment";
 			
@@ -448,7 +393,6 @@ label{
 				var ret = requestHey.responseText;
 				if(ret.includes("error = -1 ; not loaded yet")){
 					delayExecution();
-					//delay = https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
 				}else{
 					console.log("return salida");
 					document.getElementById('textAreaHey').innerHTML = ret;
@@ -467,7 +411,6 @@ label{
 			  getHeyOutput();
 		}
 		
-		//window.setInterval("getHeyOutput()", 4000);
 		
 		
 		function back_button(){
@@ -482,7 +425,6 @@ label{
 		function start() {
 			loadTableHPA();
 			getHeyOutput();
-			//loadTableDeployment();
 		}
 		window.onload = start();
 		
@@ -536,79 +478,27 @@ label{
 		var data = google.visualization.arrayToDataTable(newDataArray);
 		var dateFormatter = new google.visualization.DateFormat({pattern: 'HH:mm:ss'});
 		dateFormatter.format(data, 0);
-		//console.log(dateFormatter)
 		
-		
-		//alert("newDataArray = "+newDataArray);
-		//alert("newDataArray[1] = "+newDataArray[1]);
 		var maxValueV;
-		//alert("entyData = "+entryData);
-		//alert("entyData[0] = "+eval(entryData)[1]);
 		if(eval(entryData)[1] !== undefined){
 			maxValueV = eval(entryData)[1] + 2;
 		}else{
 			maxValueV = 2;
 		}
-		//alert("maxValueV = "+maxValueV);
-		
-		/*var options = {
-			//title: 'Deployment',
-			hAxis : {
-				//ticks: [{v:0, f:"0:00.0"}, {v:30, f:"0:30.0"}, {v:60, f:"1:00:0"}],
-				//format:'##:##s',
-				format: 'hh:mm:ss',
-				title : 'Time (s)',
-				titleTextStyle : {
-					color : '#333'
-				},
-				minValue : 0,
-			},
-			vAxis : {
-				title : 'Replicas',
-				minValue : 0,
-				viewWindow: {
-			        max: maxValueV
-				},
-				//maxValue: maxValueV
-				//minValue: eval("[" + entryData + "]")[0]
-			},
-			backgroundColor : 'transparent'
-		};*/
-
-		
-		
 		
 		
 		var options = {
 				
-				/*
-				// If the format option matches, change it to the new option,
-		          // if not, reset it to the original format.
-		          options.hAxis.format === 'M/d/yy' ?
-		          options.hAxis.format = 'MMM dd, yyyy' :
-		          options.hAxis.format = 'M/d/yy';
-				*/
         hAxis: {title: 'Time', format:'##s', minValue : 0},
-        //vAxis: {title: 'Time', format:'0.0E00'},
         vAxis : {
 			title : 'Replicas',
-			/*range: {
-                max: maxValueV,
-                min: 0
-            },*/
 			minValue : 0,
 			viewWindow: {
 		        max: maxValueV
 			},
-			//maxValue: maxValueV
-			//minValue: eval("[" + entryData + "]")[0]
 		},
 		backgroundColor : 'transparent'
     	};
-    	//var formatter1 = new google.visualization.NumberFormat({pattern:'##:##:##'});
-    	//formatter1.format(data, 0);
-		
-		
 		
 		var chart = new google.charts.Bar(document.getElementById('chart_div'));
 		chart.draw(data, google.charts.Bar.convertOptions(options));

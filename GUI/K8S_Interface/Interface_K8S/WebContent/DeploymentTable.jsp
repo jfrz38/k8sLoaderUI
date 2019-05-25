@@ -3,12 +3,12 @@
 
 	<table style="width:99%; margin-left: 0.5%; margin-right: 0.5%;">
   		<tr>
-    		<th id="probando">Nombre</th>
-    		<th>Desired</th>
-    		<th>Current</th>
-    		<th>up-to-date</th>
-    		<th>available</th>
-    		<th>Age</th>
+    		<th id="deployment_table">Nombre</th>
+    		<th>Deseado</th>
+    		<th>Actual</th>
+    		<th>Por actualizar</th>
+    		<th>Disponible</th>
+    		<th>Tiempo</th>
   		</tr>
   		<% for( DeploymentK8S d : Results.arrayDeployment ){ %>
   		<tr>
@@ -21,4 +21,3 @@
   		</tr>
 		<%}%>
 	</table>
-	

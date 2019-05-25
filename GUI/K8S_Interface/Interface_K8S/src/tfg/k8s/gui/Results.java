@@ -224,7 +224,7 @@ public class Results {
 			comando += " -q " + p.getPeticionesPorSegundo();
 
 		comando += " " + urlMinikube;
-		System.out.println("Comando hey = " + comando);
+		//System.out.println("Comando hey = " + comando);
 		try {
 			Process proc = new ProcessBuilder("bash", "-c", comando).start();
 			proc.waitFor();
@@ -237,7 +237,7 @@ public class Results {
 			// salidaHey = output.toString();
 			// textPane_heyResult.setText(output.toString());
 			salidaHey = output.toString();
-			System.out.println("Salida hey = \n" + output.toString());
+			//System.out.println("Salida hey = \n" + output.toString());
 			heyActivo = false;
 			return true;
 		} catch (Throwable t) {

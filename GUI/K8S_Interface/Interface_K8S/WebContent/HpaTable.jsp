@@ -3,12 +3,12 @@
 	<table style="width:99%; margin-left: 0.5%; margin-right: 0.5%;">
   		<tr>
     		<th>Nombre</th>
-    		<th>Reference</th>
-    		<th>Targets</th>
+    		<th>Referencia</th>
+    		<th>Objetivos</th>
     		<th>minPods</th>
     		<th>maxPods</th>
-    		<th>replicas</th>
-    		<th>age</th>
+    		<th>Réplicas</th>
+    		<th>Tiempo</th>
   		</tr>
   		<% //for( HpaK8S h : Results.arrayHPA ){
   			for(int i = Results.arrayHPA.size()-1; i >= 0 ; i--){%>
@@ -23,4 +23,3 @@
   		</tr>
 		<%}%>
 	</table>
-	
