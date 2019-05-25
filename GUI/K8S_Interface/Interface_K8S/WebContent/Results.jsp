@@ -228,7 +228,7 @@ label{
 			
 		}
 		
-		window.setInterval("loadTableHPAInfinite()", 4000);
+		window.setInterval("loadTableHPAInfinite()", 15000);
 		
 		function loadTableHPAInfinite() {
 			var urlHPA = "HpaTable.jsp";
@@ -505,7 +505,7 @@ label{
 	}
 
 	function repeat() {
-		window.setInterval("loadGraphDeployment()", 4000);
+		window.setInterval("loadGraphDeployment()", 15000);
 	}
 
 	function startChart() {

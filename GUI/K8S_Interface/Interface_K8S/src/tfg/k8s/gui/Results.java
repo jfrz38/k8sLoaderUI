@@ -127,7 +127,7 @@ public class Results {
 						// Sleep
 						try {
 							Thread.currentThread();
-							Thread.sleep(4000);
+							Thread.sleep(15000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -155,7 +155,7 @@ public class Results {
 						// Sleep
 						try {
 							Thread.currentThread();
-							Thread.sleep(4000);
+							Thread.sleep(15000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
