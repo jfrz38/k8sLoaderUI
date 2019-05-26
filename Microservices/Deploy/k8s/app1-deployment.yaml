@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: app1
@@ -10,6 +10,8 @@ spec:
     metadata:
       labels:
         app: app1
+      annotations:
+        prometheus.io/scrape: 'true'
     spec:
       containers:
       - name: app1-container
@@ -17,3 +19,9 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 8080
+        resources:
+          requests:
+            cpu: 400m
+
+
+        
