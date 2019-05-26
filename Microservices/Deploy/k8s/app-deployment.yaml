@@ -17,6 +17,13 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 8080
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "1m"
+          limits:
+            memory: "256Mi"
+            cpu: "100m"
 
 ---
 
@@ -39,6 +46,13 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 8081
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "1m"
+          limits:
+            memory: "256Mi"
+            cpu: "100m"
 
 ---
 
@@ -61,3 +75,10 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 8082
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "1m"
+          limits:
+            memory: "256Mi"
+            cpu: "100m"
