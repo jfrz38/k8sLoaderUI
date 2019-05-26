@@ -10,6 +10,8 @@ spec:
     metadata:
       labels:
         app: app1
+      annotations:
+        prometheus.io/scrape: 'true'
     spec:
       containers:
       - name: app1-container
@@ -19,11 +21,7 @@ spec:
         - containerPort: 8080
         resources:
           requests:
-            memory: "32Mi"
-            cpu: "1m"
-          limits:
-            memory: "256Mi"
-            cpu: "100m"
+            cpu: 400m
 
 ---
 
@@ -39,6 +37,8 @@ spec:
     metadata:
       labels:
         app: app2
+      annotations:
+        prometheus.io/scrape: 'true'
     spec:
       containers:
       - name: app2-container
@@ -48,11 +48,7 @@ spec:
         - containerPort: 8081
         resources:
           requests:
-            memory: "32Mi"
-            cpu: "1m"
-          limits:
-            memory: "256Mi"
-            cpu: "100m"
+            cpu: 400m
 
 ---
 
@@ -68,6 +64,8 @@ spec:
     metadata:
       labels:
         app: app3
+      annotations:
+        prometheus.io/scrape: 'true'
     spec:
       containers:
       - name: app3-container
@@ -77,8 +75,4 @@ spec:
         - containerPort: 8082
         resources:
           requests:
-            memory: "32Mi"
-            cpu: "1m"
-          limits:
-            memory: "256Mi"
-            cpu: "100m"
+            cpu: 50m

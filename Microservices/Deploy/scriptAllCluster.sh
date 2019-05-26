@@ -4,21 +4,21 @@
 eval $(minikube docker-env)
 
 #Crear imagen app1
-docker build -t app1 /app1
+docker build -t app1 Deploy/app1
 
 #Crear imagen app2
 #cd /home/jf/JoseF/TFGDocker/Microservices/Deploy/app2
-docker build -t app2 /app2
+docker build -t app2 Deploy/app2
 
 #Crear imagen app3
 #cd /home/jf/JoseF/TFGDocker/Microservices/Deploy/app3
-docker build -t app3 /app3
+docker build -t app3 Deploy/app3
 
 #Desplegar en Kubernetes
-kubectl apply -f /k8s/app-deployment.yaml
+kubectl apply -f Deploy/k8s/app-deployment.yaml
 
 # Crear servicios
-kubectl apply -f /k8s/services-app.yaml
+kubectl apply -f Deploy/k8s/services-app.yaml
 
 #Crear namespace monitoring
 kubectl create namespace monitoring
@@ -45,7 +45,7 @@ kubectl create clusterrolebinding anonymous-role-binding --clusterrole=cluster-a
 # helm del --purge prometheus-adapter
 
 #Cluster IP
-# $(kubectl get svc prometheus -n monitoring -o=jsonpath='{.items[*]}{.spec.clusterIP}')
+$(kubectl get svc prometheus -n monitoring -o=jsonpath='{.items[*]}{.spec.clusterIP}')
 
 helm install --name prometheus-adapter stable/prometheus-adapter --set prometheus.url="http://$(kubectl get svc prometheus -n monitoring -o=jsonpath='{.items[*]}{.spec.clusterIP}')",prometheus.port="9090" --namespace kube-system
 
