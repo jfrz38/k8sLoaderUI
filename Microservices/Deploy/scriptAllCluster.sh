@@ -4,19 +4,19 @@
 eval $(minikube docker-env)
 
 #Crear imagen app1
-docker build -t app1 /app1
+docker build -t app1 app1
 
 #Crear imagen app2
-docker build -t app2 /app2
+docker build -t app2 app2
 
 #Crear imagen app3
-docker build -t app3 /app3
+docker build -t app3 app3
 
 #Desplegar en Kubernetes
-kubectl apply -f /k8s/app-deployment.yaml
+kubectl apply -f k8s/app-deployment.yaml
 
 # Crear servicios
-kubectl apply -f /k8s/services-app.yaml
+kubectl apply -f k8s/services-app.yaml
 
 #Crear namespace monitoring
 kubectl create namespace monitoring
@@ -27,7 +27,7 @@ kubectl create namespace monitoring
 
 # kubectl apply -f Deploy/Prometheus/prometheus-operator/monitoring-namespace.yaml
  
-kubectl apply -f Deploy/Prometheus/prometheus-operator
+kubectl apply -f Prometheus/prometheus-operator
 
 # HELM
 
