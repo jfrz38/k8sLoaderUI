@@ -32,15 +32,9 @@ kubectl create namespace monitoring
 
 cd /home/jf/JoseF/DesplegarPrometheus/minikube-prometheus-demo
 
-kubectl apply -f monitoring-namespace.yaml#
+kubectl apply -f Deploy/Prometheus/prometheus-operator/monitoring-namespace.yaml#
  
-kubectl apply -f prometheus-config.yaml
-
-kubectl apply -f prometheus-deployment.yaml
-
-kubectl apply -f prometheus-service.yaml
-
-kubectl apply -f node-exporter-daemonset.yml
+kubectl apply -f Deploy/Prometheus/prometheus-operator
 
 # HELM
 
