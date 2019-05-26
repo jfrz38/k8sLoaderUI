@@ -4,33 +4,36 @@
 eval $(minikube docker-env)
 
 #Crear imagen app1
-cd /home/jf/JoseF/TFGDocker/Microservices/Deploy/app1
-docker build -t app1 .
+# cd /home/jf/JoseF/TFGDocker/Microservices/Deploy/app1
+docker build -t app1 /home/jf/JoseF/TFGDocker/Microservices/Deploy/app1
 
 #Crear imagen app2
-cd /home/jf/JoseF/TFGDocker/Microservices/Deploy/app2
-docker build -t app2 .
+#cd /home/jf/JoseF/TFGDocker/Microservices/Deploy/app2
+docker build -t app2 /home/jf/JoseF/TFGDocker/Microservices/Deploy/app2
 
 #Crear imagen app3
-cd /home/jf/JoseF/TFGDocker/Microservices/Deploy/app3
-docker build -t app3 .
+#cd /home/jf/JoseF/TFGDocker/Microservices/Deploy/app3
+docker build -t app3 /home/jf/JoseF/TFGDocker/Microservices/Deploy/app3
 
 #Desplegar en Kubernetes
+cd /home/jf/JoseF/TFGDocker/Microservices
+kubectl apply -f Deploy/k8s/app-deployment.yaml
 
-cd /home/jf/JoseF/TFGDocker/Microservices/Deploy
-kubectl apply -f app-deployment.yaml
 
+# Crear servicios
+kubectl apply -f Deploy/k8s/services-app.yaml
 
-# Crear servicio
+#Crear namespace monitoring
+kubectl create namespace monitoring
 
-kubectl apply -f services-app.yaml
-
+#Prometheus HELM
+# helm install --name prometheus-operator stable/prometheus --namespace monitoring
 # Ir a la ruta de desplegar prometheus
 
 cd /home/jf/JoseF/DesplegarPrometheus/minikube-prometheus-demo
 
-kubectl apply -f monitoring-namespace.yaml
-
+kubectl apply -f monitoring-namespace.yaml#
+ 
 kubectl apply -f prometheus-config.yaml
 
 kubectl apply -f prometheus-deployment.yaml
@@ -49,5 +52,12 @@ helm init --service-account tiller
 
 kubectl create clusterrolebinding anonymous-role-binding --clusterrole=cluster-admin --user=system:anonymous
 
-helm delete prometheus-adapter
-helm del --purge prometheus-adapter
+# helm delete prometheus-adapter
+# helm del --purge prometheus-adapter
+
+#Cluster IP
+$(kubectl get svc prometheus -n monitoring -o=jsonpath='{.items[*]}{.spec.clusterIP}')
+
+helm install --name prometheus-adapter stable/prometheus-adapter --set prometheus.url="http://$(kubectl get svc prometheus -n monitoring -o=jsonpath='{.items[*]}{.spec.clusterIP}')",prometheus.port="9090" --namespace kube-system
+
+

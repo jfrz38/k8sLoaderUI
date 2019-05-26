@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2019-05-26T08:50:52Z"
+  labels:
+    app: prometheus-adapter
+    chart: prometheus-adapter-1.0.2
+    heritage: Tiller
+    release: prometheus-adapter
+  name: prometheus-adapter
+  namespace: kube-system
+  resourceVersion: "1990"
+  selfLink: /api/v1/namespaces/kube-system/services/prometheus-adapter
+  uid: 5e2c1944-7f93-11e9-8694-0800272fd834
+spec:
+  clusterIP: 10.102.25.209
+  ports:
+  - port: 443
+    protocol: TCP
+    targetPort: https
+  selector:
+    app: prometheus-adapter
+    release: prometheus-adapter
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
