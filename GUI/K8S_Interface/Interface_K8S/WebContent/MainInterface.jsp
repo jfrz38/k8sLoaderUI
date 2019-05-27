@@ -349,9 +349,9 @@ select::-ms-expand {
   			function refreshComboBoxDeployment(){
   				var e = document.getElementById("comboBoxNamespace");
   				var text;
-  				if(e.options[e.selectedIndex] === undefined){
+  				/*if(e.options[e.selectedIndex] === undefined){
   					refreshComboBoxService();
-  				}
+  				}*/
   				if(e.options[e.selectedIndex].text !== undefined){
   					text = e.options[e.selectedIndex].text;
   				}else{
@@ -385,9 +385,9 @@ select::-ms-expand {
   			function refreshComboBoxHPA(){
   				var e = document.getElementById("comboBoxNamespace");
   				var text;
-  				if(e.options[e.selectedIndex] === undefined){
+  				/*if(e.options[e.selectedIndex] === undefined){
   					refreshComboBoxService();
-  				}
+  				}*/
   				if(e.options[e.selectedIndex].text !== undefined){
   					text = e.options[e.selectedIndex].text;
   				}else{
@@ -420,9 +420,9 @@ select::-ms-expand {
   			function refreshComboBoxService(){
   				var e = document.getElementById("comboBoxNamespace");
   		  		var text;
-  		  		if(e.options[e.selectedIndex] === undefined){
+  		  		/*if(e.options[e.selectedIndex] === undefined){
   		  			refreshComboBoxService();
-				}
+				}*/
   				if(e.options[e.selectedIndex].text !== undefined){
   					text = e.options[e.selectedIndex].text;
   				}else{
@@ -459,7 +459,15 @@ select::-ms-expand {
 				
   			}
 			
-  			window.onload = refreshComboBox;
+			function waitComboBox(){
+				if(e.options[e.selectedIndex] === undefined){
+					await sleep(2000);
+					waitComboBox();
+				}
+				refreshComboBox();
+			}
+			
+  			window.onload = waitComboBox;
 	</script>
 
 </body>
