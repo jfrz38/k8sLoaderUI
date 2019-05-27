@@ -50,11 +50,6 @@ public class ReadJSON {
 			}
 
 		//}
-		System.out.print("Namespaces = ( ");
-		for(NamespaceK8S n :namespacesArray) {
-			System.out.print(""+n.getName()+" ");
-		}
-		System.out.println(" )");
 		return namespacesArray;
 	}
 
