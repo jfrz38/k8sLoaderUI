@@ -4,7 +4,7 @@
 	if(Results.heyActivo){
 		//Enviando datos
 		
-		out.write(error);
+		out.write(Results.comandoHey);
 		
 	}else{
 		out.write(Results.salidaHey);

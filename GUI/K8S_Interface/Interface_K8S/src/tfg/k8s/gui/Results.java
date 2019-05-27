@@ -19,6 +19,7 @@ public class Results {
 	public static ArrayList<DeploymentK8S> arrayDeployment;
 	public static Date startDate;
 	public static boolean heyActivo = true;
+	public static String comandoHey = "-1";
 	
 	public Results() {
 		arrayHPA = new ArrayList<HpaK8S>();
@@ -212,8 +213,8 @@ public class Results {
 		}
 
 		// Lamada HEY a la URL
-		//if (urlMinikube.equals(""))
-			//return false;
+		if (urlMinikube.equals(""))
+			return false;
 
 		String comando = "hey";
 		if (!p.getPeticionesTotales().equals(""))
@@ -224,6 +225,7 @@ public class Results {
 			comando += " -q " + p.getPeticionesPorSegundo();
 
 		comando += " " + urlMinikube;
+		comandoHey = comando;
 		//System.out.println("Comando hey = " + comando);
 		try {
 			Process proc = new ProcessBuilder("bash", "-c", comando).start();

@@ -392,7 +392,7 @@ label{
 			if (requestHey.readyState == 4) {
 				var ret = requestHey.responseText;
 				console.log("ret response = "+ret);
-				if(ret.includes("error = -1 ; not loaded yet")){
+				if(ret.includes("-1")){
 					delayExecution();
 				}else{
 					console.log("return salida = "+ret);
