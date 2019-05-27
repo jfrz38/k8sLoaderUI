@@ -108,7 +108,7 @@ public class ReadJSON {
 				JSONObject metadata = (JSONObject) aux.get("metadata");
 				fecha = (String) metadata.get("creationTimestamp");
 				JSONObject labelsJSON = (JSONObject) metadata.get("labels");
-				labels = (String)labelsJSON.get("app");
+				//labels = (String)labelsJSON.get("app");
 				name = (String) metadata.get("name");
 				JSONObject statusJSON = (JSONObject) aux.get("status");
 				replicas = (String) statusJSON.get("replicas").toString();
