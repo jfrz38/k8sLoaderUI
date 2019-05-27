@@ -391,6 +391,7 @@ label{
 		function getOutputHey() {
 			if (requestHey.readyState == 4) {
 				var ret = requestHey.responseText;
+				console.log("ret response = "+ret);
 				if(ret.includes("error = -1 ; not loaded yet")){
 					delayExecution();
 				}else{
@@ -407,6 +408,7 @@ label{
 			  return new Promise(resolve => setTimeout(resolve, ms));
 		}
 		async function delayExecution() {
+			console.log("delay execution");
 			  await sleep(1000);
 			  getHeyOutput();
 		}
