@@ -468,7 +468,7 @@ select::-ms-expand {
 				}*/
 				while(e.options[e.selectedIndex] === undefined){
 					window.alert("NO listo");
-					return new Promise((resolve) => setTimeout(resolve, 2000));
+					//return new Promise((resolve) => setTimeout(resolve, 2000));
 				}
 				window.alert("listo");
 				refreshComboBox();
