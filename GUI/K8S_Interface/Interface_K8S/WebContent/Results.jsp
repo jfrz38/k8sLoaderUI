@@ -394,8 +394,7 @@ label{
 				if(ret.includes("error = -1 ; not loaded yet")){
 					delayExecution();
 				}else{
-					window.alert("return salida");
-					window.alert("salida = "+ret);
+					console.log("return salida = "+ret);
 					document.getElementById('textAreaHey').innerHTML = ret;
 					document.getElementById('loadGIF').style.visibility = "hidden";
 				}
