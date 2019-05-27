@@ -34,9 +34,9 @@ public class MainInterface extends HttpServlet {
      */
     public MainInterface() throws FileNotFoundException, IOException, ParseException {
         super();
-        if(checkCluster()) {
+        //if(checkCluster()) {
         	initializeData();
-        }
+        //}
         
     }
     
@@ -52,9 +52,9 @@ public class MainInterface extends HttpServlet {
         	hpaArray = rj.readHPA(namespacesArray.get(0).getName());
         	servicesArray = rj.readServices(namespacesArray.get(0).getName());
     	}else {
-    		deploymentsArray = rj.readDeployments("");
-        	hpaArray = rj.readHPA("");
-        	servicesArray = rj.readServices("");
+    		deploymentsArray = rj.readDeployments("default");
+        	hpaArray = rj.readHPA("default");
+        	servicesArray = rj.readServices("default");
     	}
     	
     }
