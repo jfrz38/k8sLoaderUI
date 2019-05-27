@@ -460,10 +460,13 @@ select::-ms-expand {
   			}
 			
 			function waitComboBox(){
+				var e = document.getElementById("comboBoxNamespace");
 				if(e.options[e.selectedIndex] === undefined){
-					await sleep(2000);
+					window.alert("NO listo");
+					return new Promise((resolve) => setTimeout(resolve, 2000));
 					waitComboBox();
 				}
+				window.alert("listo");
 				refreshComboBox();
 			}
 			
