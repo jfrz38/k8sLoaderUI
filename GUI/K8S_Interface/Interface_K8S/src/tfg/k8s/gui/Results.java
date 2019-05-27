@@ -173,7 +173,7 @@ public class Results {
 
 	public boolean runCommand(Peticion p) {
 
-		if (System.getProperty("os.name").startsWith("Windows")) {
+		/*if (System.getProperty("os.name").startsWith("Windows")) {
 			salidaHey = "Windows";
 			String str ="";
 			for(int i = 0; i < 250000; i++) {
@@ -188,7 +188,7 @@ public class Results {
 			System.out.println("fin hilo");
 			heyActivo = false;
 			return false;
-		}
+		}*/
 
 		// Conseguir URL
 		// minikube service <servicio> --url
@@ -204,8 +204,8 @@ public class Results {
 				output.append(line + "\n");
 			}
 			urlMinikube = output.toString();
-			System.out.println("url minikube = " + urlMinikube);
-			System.out.println("Comando = minikube service " + p.getServicio() + " --url");
+			//System.out.println("url minikube = " + urlMinikube);
+			//System.out.println("Comando = minikube service " + p.getServicio() + " --url");
 		} catch (Throwable t) {
 			t.printStackTrace();
 			return false;
