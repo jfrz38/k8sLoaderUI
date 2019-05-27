@@ -466,11 +466,11 @@ select::-ms-expand {
 					return new Promise((resolve) => setTimeout(resolve, 2000));
 					waitComboBox();
 				}*/
-				while(e.options[e.selectedIndex] === undefined){
-					window.alert("NO listo");
+				//while(e.options[e.selectedIndex] === undefined){
+					//window.alert("NO listo");
 					//return new Promise((resolve) => setTimeout(resolve, 2000));
-				}
-				window.alert("listo");
+				//}
+				//window.alert("listo");
 				refreshComboBox();
 			}
 			

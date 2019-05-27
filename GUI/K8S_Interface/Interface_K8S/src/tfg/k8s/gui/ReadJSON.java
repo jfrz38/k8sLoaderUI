@@ -417,7 +417,7 @@ public class ReadJSON {
 		
 		if(OS) return true;
 		
-		String str = this.getOutputShell("sudo kubectl status");
+		String str = this.getOutputShell("sudo kubectl version");
 		if(str.equals("")) return false;
 		return true;
 	}
