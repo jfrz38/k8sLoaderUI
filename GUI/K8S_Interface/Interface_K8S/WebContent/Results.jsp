@@ -7,7 +7,7 @@
 
 <%
 	Peticion p = (Peticion) request.getAttribute("peticion");
-	Results r = new Results();;
+	Results r = new Results();
 	
 %>
 

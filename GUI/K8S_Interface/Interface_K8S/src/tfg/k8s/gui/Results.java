@@ -194,7 +194,7 @@ public class Results {
 		// minikube service <servicio> --url
 		String urlMinikube;
 		try {
-			Process proc = new ProcessBuilder("bash", "-c", "sudo minikube service " + p.getServicio() + " --url")
+			Process proc = new ProcessBuilder("bash", "-c", "sudo minikube service " + p.getServicio() + " -n " + p.getNamespace() + " --url")
 					.start();
 			proc.waitFor();
 			StringBuffer output = new StringBuffer();
@@ -212,8 +212,8 @@ public class Results {
 		}
 
 		// Lamada HEY a la URL
-		if (urlMinikube.equals(""))
-			return false;
+		//if (urlMinikube.equals(""))
+			//return false;
 
 		String comando = "hey";
 		if (!p.getPeticionesTotales().equals(""))
