@@ -420,6 +420,9 @@ select::-ms-expand {
   			function refreshComboBoxService(){
   				var e = document.getElementById("comboBoxNamespace");
   		  		var text;
+  		  		if(e.options[e.selectedIndex] === undefined){
+					return;
+				}
   				if(e.options[e.selectedIndex].text !== undefined){
   					text = e.options[e.selectedIndex].text;
   				}else{
