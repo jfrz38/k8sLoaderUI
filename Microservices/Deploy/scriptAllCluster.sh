@@ -27,7 +27,7 @@ kubectl create namespace monitoring
 
 # kubectl apply -f Deploy/Prometheus/prometheus-operator/monitoring-namespace.yaml
  
-kubectl apply -f Prometheus/prometheus-operator
+kubectl apply -f Prometheus/prometheus-operator/AllinOne.yaml
 
 # HELM
 
@@ -45,6 +45,8 @@ kubectl create clusterrolebinding anonymous-role-binding --clusterrole=cluster-a
 #Cluster IP
 # $(kubectl get svc prometheus -n monitoring -o=jsonpath='{.items[*]}{.spec.clusterIP}')
 
-helm install --name prometheus-adapter stable/prometheus-adapter --set prometheus.url="http://$(kubectl get svc prometheus -n monitoring -o=jsonpath='{.items[*]}{.spec.clusterIP}')",prometheus.port="9090" --namespace kube-system
+echo helm install --name prometheus-adapter stable/prometheus-adapter --set prometheus.url="http://$(kubectl get svc prometheus -n monitoring -o=jsonpath='{.items[*]}{.spec.clusterIP}')",prometheus.port="9090" --namespace kube-system
+
+helm install --name prometheus-adapter banzai-charts/prometheus-adapter --set prometheus.url="http://XXXXXXXXXXXX",prometheus.port="9090" --namespace kube-system
 
 
