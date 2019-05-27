@@ -1,6 +1,7 @@
 package tfg.k8s.gui;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,7 +20,6 @@ public class Results {
 	public static ArrayList<DeploymentK8S> arrayDeployment;
 	public static Date startDate;
 	public static boolean heyActivo = true;
-	public static String comandoHey = "-1";
 	
 	public Results() {
 		arrayHPA = new ArrayList<HpaK8S>();
@@ -191,6 +191,18 @@ public class Results {
 			return false;
 		}*/
 
+		//Asegurar el PATH
+		//export PATH=$PATH:/home/ubuntu/go/bin
+		Process pr;
+		try {
+			pr = new ProcessBuilder("bash", "-c", "export PATH=$PATH:/home/ubuntu/go/bin")
+					.start();
+			pr.waitFor();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			return false;
+		}
+		
 		// Conseguir URL
 		// minikube service <servicio> --url
 		String urlMinikube;
@@ -225,7 +237,6 @@ public class Results {
 			comando += " -q " + p.getPeticionesPorSegundo();
 
 		comando += " " + urlMinikube;
-		comandoHey = comando;
 		//System.out.println("Comando hey = " + comando);
 		try {
 			Process proc = new ProcessBuilder("bash", "-c", comando).start();
