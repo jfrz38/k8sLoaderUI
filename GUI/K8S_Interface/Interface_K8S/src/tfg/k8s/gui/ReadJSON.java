@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -32,7 +33,8 @@ public class ReadJSON {
 			//Windows
 			json = (JSONObject) builder.parse(new FileReader("C:\\Users\\josef\\Desktop\\namespaces.json"));
 		}else {
-			json = (JSONObject) builder.parse(getOutputShell("sudo kubectl get namespaces -o json"));
+			json = (JSONObject) builder.parse(getOutputShell("kubectl get namespaces -o json"));
+			
 		}
 
 		//for (Object o : json) {
@@ -64,7 +66,7 @@ public class ReadJSON {
 			//Windows
 			json = (JSONObject) builder.parse(new FileReader("C:\\Users\\josef\\Desktop\\deployments.json"));
 		}else {
-			json = (JSONObject) builder.parse(getOutputShell("sudo kubectl get deployment -n "+namespace+" -o json"));
+			json = (JSONObject) builder.parse(getOutputShell("kubectl get deployment -n "+namespace+" -o json"));
 		}
 		
 		
@@ -390,18 +392,23 @@ public class ReadJSON {
 		return salidaScript(comando).toString();
 	}
 
-	public StringBuffer salidaScript(String command) {
+	public StringBuilder salidaScript(String command) {
 
 		try {
-			Process proc = new ProcessBuilder("bash", "-c", command).start();
-			proc.waitFor();
-			StringBuffer output = new StringBuffer();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-			String line = "";
-			while ((line = reader.readLine()) != null) {
-				output.append(line + "\n");
+			if(command.contains("sudo"))command=command.replace("sudo", "");
+			ProcessBuilder pb = new ProcessBuilder();
+			pb.command("bash", "-c", command);
+			Process p = pb.start();
+			StringBuilder output = new StringBuilder();
+			BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			String line;
+			while((line = r.readLine()) != null) {
+				output.append(line+"\n");
 			}
+			System.out.println("cmd = "+command);
+			p.waitFor();
 			return output;
+			
 		} catch (Throwable t) {
 			t.printStackTrace();
 			return null;

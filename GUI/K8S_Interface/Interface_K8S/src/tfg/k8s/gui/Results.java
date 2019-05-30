@@ -193,9 +193,10 @@ public class Results {
 
 		//Asegurar el PATH
 		//export PATH=$PATH:/home/ubuntu/go/bin
+		//PATH=$PATH:/home/josef/go/bin/
 		Process pr;
 		try {
-			pr = new ProcessBuilder("bash", "-c", "export PATH=$PATH:/home/ubuntu/go/bin")
+			pr = new ProcessBuilder("bash", "-c", "PATH=$PATH:/home/josef/go/bin")
 					.start();
 			pr.waitFor();
 		} catch (Throwable e) {
@@ -206,7 +207,7 @@ public class Results {
 		// Conseguir URL
 		// minikube service <servicio> --url
 		String urlMinikube;
-		try {
+		/*try {
 			Process proc = new ProcessBuilder("bash", "-c", "sudo minikube service " + p.getServicio() + " -n " + p.getNamespace() + " --url")
 					.start();
 			proc.waitFor();
@@ -222,8 +223,8 @@ public class Results {
 		} catch (Throwable t) {
 			t.printStackTrace();
 			return false;
-		}
-
+		}*/
+		urlMinikube="http://192.168.99.100:30296";
 		// Lamada HEY a la URL
 		if (urlMinikube.equals(""))
 			return false;
