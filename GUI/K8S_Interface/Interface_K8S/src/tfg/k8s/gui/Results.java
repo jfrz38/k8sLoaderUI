@@ -226,25 +226,37 @@ public class Results {
 		}
 		//urlMinikube="http://192.168.99.100:30296";
 		// Lamada HEY a la URL
-		if (urlMinikube.equals(""))
-			return false;
+		if (urlMinikube.equals("")){
+			//return false;
+		}
 
 		String comando = "hey";
-		if (!p.getPeticionesTotales().equals("") || 
-			!p.getPeticionesTotales().equals("Peticiones totales") )
+		if (!p.getPeticionesTotales().equals("") && 
+			!p.getPeticionesTotales().equals("Peticiones totales") &&
+				p.getPeticionesTotales() != null)
 			comando += " -n " + p.getPeticionesTotales();
-		if (!p.getPeticionesConcurrentes().equals("") ||
-			!p.getPeticionesConcurrentes().equals("Peticiones concurrentes"))
+		if (!p.getPeticionesConcurrentes().equals("") &&
+			!p.getPeticionesConcurrentes().equals("Peticiones concurrentes") &&
+                                p.getPeticionesConcurrentes() != null)
 			comando += " -c " + p.getPeticionesConcurrentes();
-		if (!p.getPeticionesPorSegundo().equals("") ||
-			!p.getPeticionesPorSegundo().equals("Peticiones por segundo"))
+		if (!p.getPeticionesPorSegundo().equals("") &&
+			!p.getPeticionesPorSegundo().equals("Peticiones por segundo") &&
+                                p.getPeticionesPorSegundo() != null)
 			comando += " -q " + p.getPeticionesPorSegundo();
 
-		comando += " " + urlMinikube;
+		//comando += " " + urlMinikube;
+		if (urlMinikube.equals("")){
+                        //return false;
+			comando += "$(minikube service app1 --url)";
+                }else{
+			comando += " " + urlMinikube;
+		}
+
 		//System.out.println("Comando hey = " + comando);
 		try {
 			//Process proc = new ProcessBuilder("bash", "-c", "export PATH=$PATH:/home/ubuntu/go/bin && " + comando).start();
-			Process proc = new ProcessBuilder("bash", "-c", "export PATH=$PATH:/home/ubuntu/go/bin && hey $(minikube service app1 --url)").start();
+			//Process proc = new ProcessBuilder("bash", "-c", "export PATH=$PATH:/home/ubuntu/go/bin && hey $(minikube service app1 --url)").start();
+			Process proc = new ProcessBuilder("bash", "-c", "export PATH=$PATH:/home/ubuntu/go/bin && "+comando).start();
 			proc.waitFor();
 			StringBuffer output = new StringBuffer();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
