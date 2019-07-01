@@ -405,7 +405,7 @@ public class ReadJSON {
 			while((line = r.readLine()) != null) {
 				output.append(line+"\n");
 			}
-			System.out.println("cmd = "+command);
+			//System.out.println("cmd = "+command);
 			p.waitFor();
 			return output;
 			

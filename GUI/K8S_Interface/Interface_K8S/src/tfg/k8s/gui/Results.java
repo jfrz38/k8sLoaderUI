@@ -128,7 +128,7 @@ public class Results {
 						// Sleep
 						try {
 							Thread.currentThread();
-							Thread.sleep(15000);
+							Thread.sleep(4000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -156,7 +156,7 @@ public class Results {
 						// Sleep
 						try {
 							Thread.currentThread();
-							Thread.sleep(15000);
+							Thread.sleep(4000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -194,20 +194,20 @@ public class Results {
 		//Asegurar el PATH
 		//export PATH=$PATH:/home/ubuntu/go/bin
 		//PATH=$PATH:/home/josef/go/bin/
-		Process pr;
+		/*Process pr;
 		try {
-			pr = new ProcessBuilder("bash", "-c", "PATH=$PATH:/home/josef/go/bin")
+			pr = new ProcessBuilder("bash", "-c", "PATH=$PATH:/home/ubuntu/go/bin")
 					.start();
 			pr.waitFor();
 		} catch (Throwable e) {
 			e.printStackTrace();
 			return false;
-		}
+		}*/
 		
 		// Conseguir URL
 		// minikube service <servicio> --url
 		String urlMinikube;
-		/*try {
+		try {
 			Process proc = new ProcessBuilder("bash", "-c", "sudo minikube service " + p.getServicio() + " -n " + p.getNamespace() + " --url")
 					.start();
 			proc.waitFor();
@@ -223,38 +223,51 @@ public class Results {
 		} catch (Throwable t) {
 			t.printStackTrace();
 			return false;
-		}*/
-		urlMinikube="http://192.168.99.100:30296";
+		}
+		//urlMinikube="http://192.168.99.100:30296";
 		// Lamada HEY a la URL
 		if (urlMinikube.equals(""))
 			return false;
 
 		String comando = "hey";
-		if (!p.getPeticionesTotales().equals(""))
+		if (!p.getPeticionesTotales().equals("") || 
+			!p.getPeticionesTotales().equals("Peticiones totales") )
 			comando += " -n " + p.getPeticionesTotales();
-		if (!p.getPeticionesConcurrentes().equals(""))
+		if (!p.getPeticionesConcurrentes().equals("") ||
+			!p.getPeticionesConcurrentes().equals("Peticiones concurrentes"))
 			comando += " -c " + p.getPeticionesConcurrentes();
-		if (!p.getPeticionesPorSegundo().equals(""))
+		if (!p.getPeticionesPorSegundo().equals("") ||
+			!p.getPeticionesPorSegundo().equals("Peticiones por segundo"))
 			comando += " -q " + p.getPeticionesPorSegundo();
 
 		comando += " " + urlMinikube;
 		//System.out.println("Comando hey = " + comando);
 		try {
-			Process proc = new ProcessBuilder("bash", "-c", comando).start();
+			//Process proc = new ProcessBuilder("bash", "-c", "export PATH=$PATH:/home/ubuntu/go/bin && " + comando).start();
+			Process proc = new ProcessBuilder("bash", "-c", "export PATH=$PATH:/home/ubuntu/go/bin && hey $(minikube service app1 --url)").start();
 			proc.waitFor();
 			StringBuffer output = new StringBuffer();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 			String line = "";
+			//salidaHey = "";
+			String auxStrHey = "";
 			while ((line = reader.readLine()) != null) {
+				//auxStrHey += line + "&#13;&#10;";
+				auxStrHey += line + "\n";
 				output.append(line + "\n");
+				//cont++;
 			}
 			// salidaHey = output.toString();
 			// textPane_heyResult.setText(output.toString());
-			salidaHey = output.toString();
+			//salidaHey = output.toString();
+			salidaHey = auxStrHey;
+			if(salidaHey.equals("")) salidaHey = "NULL: comando = "+comando;
+			//salidaHey = auxStrHey;
 			//System.out.println("Salida hey = \n" + output.toString());
 			heyActivo = false;
 			return true;
 		} catch (Throwable t) {
+			salidaHey = "false";
 			t.printStackTrace();
 			heyActivo = false;
 			return false;
