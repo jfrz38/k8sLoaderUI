@@ -8,4 +8,4 @@ Load data into K8s service and watch its behavior
 
 
 ![Select load and k8s object](https://i.gyazo.com/3f1b69af6f44daeeade96554de507234.png)
-![And it's working](https://i.gyazo.com/5f9e3ba7bf2d9a82f7ff4754756084f4.png)
+![And it's working](https://i.gyazo.com/024afc70f5f02a5658fd7d44db530b38.png)
