@@ -32,14 +32,14 @@ div_right { width: 50%; height: 100%; float: right; overflow:auto;}
 textarea {
   width: 100%;
   height: 70%;
-  padding: 12px 20px;
-  box-sizing: border-box;
+  /*padding: 12px 20px;
+  box-sizing: border-box;*/
   border: 2px solid #ccc;
   border-radius: 4px;
   background-color: #f8f8f8;
   resize: none;
   white-space:nowrap;
-  overflow:auto;
+  overflow:scroll;
 }
 table, th, td {
   /*border: 1px solid black;*/
@@ -173,7 +173,7 @@ label{
   	<div class="loadGIF">
   		<img class="imageGIF" src="${pageContext.request.contextPath}/images/loading.gif" id="loadGIF">
   	</div>
-  	<textarea readonly style="width:99%; height:99%; margin-left: 0.5%; margin-right: 0.5%;" id="textAreaHey">
+  	<textarea style="width:99%; height:99%; margin-left: 0.5%; margin-right: 0.5%;" id="textAreaHey">
   	
 	</textarea>
 	</div>
@@ -228,7 +228,7 @@ label{
 			
 		}
 		
-		window.setInterval("loadTableHPAInfinite()", 15000);
+		window.setInterval("loadTableHPAInfinite()", 4000);
 		
 		function loadTableHPAInfinite() {
 			var urlHPA = "HpaTable.jsp";
@@ -507,7 +507,7 @@ label{
 	}
 
 	function repeat() {
-		window.setInterval("loadGraphDeployment()", 15000);
+		window.setInterval("loadGraphDeployment()", 4000);
 	}
 
 	function startChart() {
